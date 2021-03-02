@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, Form } from 'react-bootstrap';
 import logo from '../../assets/icons/logo.svg'
 
-export default (props) => {
+export default (props) => {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
     const { title, text, img, children, ...rest } = props;
     return <Card {...rest}>
         {children ||

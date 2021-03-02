@@ -11,6 +11,7 @@ import check from '../../assets/icons/tick.svg'
 
 export default (props) => {
     const [active, setActive] = useState(0);
+    const [isLoading, setIsLoading] = useState(0)
     const [userDetails, setUserDetails] = useState({
         name: '',
         email: '',
@@ -39,10 +40,15 @@ export default (props) => {
         setActive(active - 1)
     }
     const handleNext = (value) => {
-        if (active === 0) {
-            setUserDetails({ ...userDetails, ...value })
-        }
         setActive(active + 1)
+        if (active === 2) {
+        setIsLoading(1);
+        postData()
+        }
+    }
+
+    const postData = async () => {
+        setTimeout(() => { setIsLoading(2) }, 3000);
     }
 
     const renderStep = () => {
@@ -58,7 +64,7 @@ export default (props) => {
     }
     return <div className={`stepper ${active === 3 ? 'loader-animation' : ''}`}>
         <div className={`sidebar-left `}>
-            <div className="sidebar" >
+            <div className={`sidebar ${isLoading === 2 ? 'd-none' : ''}`} >
                 <div className={`steps ${active > 0 ? 'fill' : ''} ${active === 0 ? "active" : ''} `} > <div className="circle">
                     <span className="before" >
                         <svg xmlns="http://www.w3.org/2000/svg" width="61.024" height="61.336" viewBox="0 0 61.024 61.336">
@@ -74,7 +80,7 @@ export default (props) => {
                     </span>
                 </div> <span className="step-label">Select Services</span></div>
                 <div className={`vertical-divider ${active > 0 ? 'fill' : ''}`} ></div>
-                <div className={`steps ${active > 1 ? 'fill' : ''} ${active === 1 ? "active" : ''} ${active === 0 ? "disabled" : ''}`} onClick={handleNext} > <div className="circle">
+                <div className={`steps ${active > 1 ? 'fill' : ''} ${active === 1 ? "active" : ''} ${active === 0 ? "disabled" : ''}`}  > <div className="circle">
                     <span className="before" >
                         <svg id="Group_1207" data-name="Group 1207" xmlns="http://www.w3.org/2000/svg" width="49.869" height="77.07" viewBox="0 0 49.869 77.07">
                             <g id="Group_1206" data-name="Group 1206" transform="translate(0 0)">
@@ -104,8 +110,10 @@ export default (props) => {
                 </div> <span className="step-label">Select Services</span></div>
             </div>
             <div className="loading-message" >
-                <h3>WE ARE SETTING UP YOUR HOLA ACCOUNT</h3>
-                <p>Do not go away from here, be patient...</p>
+                <h3>{isLoading === 1 ? "WE ARE SETTING UP YOUR HOLA ACCOUNT" : "Request Sucessfully"}</h3>
+                {isLoading === 1 &&
+                    <p>Do not go away from here, be patient...</p>
+                }
             </div>
         </div>
         <div className="stepper-body" >

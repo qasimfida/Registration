@@ -22,7 +22,7 @@ export default (props) => {
                 <li> <span>Password</span> <span>********</span></li>
             </Card.Text>
         }
-        {step > 2 &&
+        {step > 1 &&
             <Card.Subtitle>
                 <div className="bullet" >2</div>
                 <span>  Account Details</span>
