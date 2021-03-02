@@ -1,0 +1,442 @@
+@import '../../scss/globals';
+.stepper {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    .sidebar-left {
+        
+        width: 350px;
+        background-color:$primary;
+        .vertical-divider {
+            height: 100px;
+            width: 4px;
+            background: #004887;
+            position: relative;
+            transition: 0.4s all ease-in-out;
+            &:after {
+                height: 0;
+                width: 100%;
+                background-color:$secondary;
+                position: absolute;
+                content: '';
+                left: 0;
+                right: 0;
+                top: 0;
+            }
+            &.fill:after {
+                transition: 0.4s all ease-in-out;
+                height: 100%;
+            }
+        }
+        .steps {
+            position: relative;
+            width: 100%;
+            text-align: center;
+            padding: 20px 0;
+            span {
+                font: normal normal normal 13px/20px Poppins;
+            letter-spacing: 0px;
+            color: #FFFFFF;
+            }
+            
+            opacity: 1;
+             .circle{
+                 position: relative;
+                height: 185px;
+                width: 185px;
+                border-radius: 50%;
+                // border: 1px solid red;
+                background-color: $darkBlue;
+                margin: 0 auto;
+                margin-bottom : 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+             
+            
+            .step-label {
+                transition: 0.2s all ease-in-out;
+            }
+            &:after {
+                position: absolute;
+                left: 100%;
+                height: 0;
+                width: 0;
+                top: 45%;
+                display: none;
+                content: '';
+                border: 10px solid transparent;
+                border-left-color: $primary;
+            }
+            &:first-child :after{
+                top: 40%;
+            }
+           
+            &:last-child :after{
+                top: 40%;
+            }
+        }
+        .steps.active::after {
+            display: block;
+        }
+        .steps.disabled{
+            .circle {
+                opacity: 0.7;
+            }
+        }
+        .steps.fill {
+            .step-label {
+                display: none;
+                
+            }
+            .circle {
+                background-color: $secondary;
+                svg {
+                    display: none;
+                }
+            }
+            
+        }
+    }
+    .sidebar {
+        width: 350px;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .stepper-body {
+        padding: 32px 52px;
+        width: calc(100% - 300px);
+        .stepper-content {
+            display: flex;
+            margin-top: 65px;
+        }
+        .horizontal-divider {
+            border: 1px solid $gray6;
+        }
+        .stepper-header {
+            background: transparent;
+            border: none;
+            display: flex;
+            flex-direction: row;
+            margin-bottom: 20px;
+            img {
+                height: 50px;
+                width: 50px;
+                min-width: 50px;
+                min-height: 50px;
+                margin-right: 24px;
+                border-radius: 50%;
+            }
+            .card-body {
+                padding: 0;
+                text-align: left;
+                .card-title {
+                    font: normal normal normal 20px/30px Poppins;
+                    letter-spacing: 0.2px;
+                    color: $primary;
+                    margin-bottom: 4px;
+                }
+                .card-text {
+                    font: normal normal normal 14px/21px Poppins;
+                    letter-spacing: -0.14px;
+                    color: $gray8;
+                }
+            }
+            select {
+                background-color: transparent;
+                outline: none !important;
+                border: none !important;
+                box-shadow: none !important;
+                color: $primary;
+                font: normal normal normal 16px/20px Poppins;
+                letter-spacing: 0px;
+            }
+
+        }
+        .stepper-progress {
+            padding: 22px 25px;
+            background: $white 0% 0% no-repeat padding-box;
+            box-shadow: 0px 2px 6px $gray3;
+            border-radius: 10px;
+            border: none;
+            .card-title {
+                font: normal normal normal 18px/27px Poppins;
+                letter-spacing: -0.18px;
+                color: $primary;
+                display: flex;
+                justify-content: space-between;
+                align-items: baseline;
+                text-align: left;
+                margin-bottom: 12px;
+                span {
+                    width : 65px;
+                    font: normal normal normal 12px/14px Poppins;
+                    letter-spacing: -0.12px;
+                    b {
+                        display: block;
+                        font: normal normal bold 16px/14px Poppins;
+                        letter-spacing: -0.16px;
+                    }
+                }
+            }
+            .progress {
+                background: $gray5 0% 0% no-repeat padding-box;
+                border-radius: 10px;
+                .progress-bar {
+                    background: $secondary 0% 0% no-repeat padding-box;
+                    border-radius: 10px;
+                    font: normal normal medium 12px/14px Poppins;
+                    letter-spacing: -0.12px;
+                    color: $white;
+                }
+            }
+            .card-subtitle {
+                font: normal normal normal 16px/20px Poppins;
+                letter-spacing: 0.16px;
+                color: $fontDark;
+                display: flex;
+                justify-content: space-between;
+                text-align: left;
+                margin-top: 32px;
+                padding-bottom: 16px;
+                border-bottom: 1px solid $gray6;
+                .bullet {
+                    width: 23px;
+                    height: 23px;
+                   min-width: 23px;
+                    min-height: 23px;
+                    line-height: 23px;
+                    background: $gray5 0% 0% no-repeat padding-box;
+                    margin-right: 9px;
+                    border-radius: 50%;
+                    text-align: center;
+                }
+                span {
+                    width: 100%;
+                }
+                .status {
+                    font: normal normal normal 12px/20px Poppins;
+                    letter-spacing: 0.12px;
+                    color: $secondary;
+                    min-width: max-content;
+                }
+            }
+            .card-text {
+                li {
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 14px 0;
+                    border-bottom: 1px dashed $gray9;
+                    
+                    span:first-child {
+                        text-align: left;
+                        font: normal normal normal 13px/20px Poppins;
+                        letter-spacing: -0.13px;
+                        color: $fontGrayLighten;
+                    }
+                    span:last-child {
+                        text-align: right;
+                        font: normal normal normal 13px/20px Poppins;
+                        letter-spacing: -0.13px;
+                        color: $gray9;
+                    }
+                }
+            }
+        }
+    }
+    .stepper-form-1 {
+        .MuiFormControl-root.MuiTextField-root {
+            width: 100%;
+        }
+        
+        .icon-input {
+            position: relative;
+            margin-bottom: 36px;
+            display: flex;
+            width: 90%;
+            .icon {
+                position: absolute;
+                top: 20px;
+                z-index: 2;
+            }
+        }
+        .MuiInputLabel-root{
+            padding-left: 50px;
+        }
+        .MuiInputLabel-root.MuiInputLabel-shrink{
+            padding-left: 70px;
+        }
+        .MuiInputLabel-root.Mui-focused {
+            padding-left: 70px;
+        }
+        input {
+            padding-left: 50px;
+            padding-right: 40px;
+            padding-bottom: 17px;
+            border-top: none; 
+            border-left: none; 
+            border-right: none; 
+            background-color: transparent;
+            font: normal normal normal 16px/25px Poppins;
+            letter-spacing: -0.16px;
+            color: $gray9;
+        }
+        .check-label {
+            position: relative;
+            top: 8px;
+            margin-left: 8px;
+            a {
+                text-decoration: underline;
+                font: normal normal normal 14px/21px Poppins;
+                letter-spacing: -0.14px;
+                color: $primary;
+            }
+        }
+        .already-account {
+            text-align: center;
+            font: normal normal normal 16px/18px Poppins;
+            letter-spacing: 0.32px;
+            color: $gray9;
+            margin-top: 30px;
+            a {
+                text-align: center;
+                text-decoration: underline;
+                color: $primary;
+            }
+        }
+        
+    }
+
+    .property-form {
+        .label + .MuiInput-formControl {
+            margin-top: 0;
+        }
+        .MuiFormControl-root.MuiTextField-root {
+            width: 100%;
+            margin-bottom: 17px;
+        }
+        .MuiInputLabel-root{
+            padding-left: 0px;
+        }
+        .MuiInputLabel-root.MuiInputLabel-shrink{
+            padding-left: 0px;
+        }
+        .MuiInputLabel-root.Mui-focused {
+            padding-left: 0px;
+        }
+        .MuiSelect-select.MuiSelect-select {
+            padding-bottom: 24px;
+        }
+        input {
+            padding-left: 0px;
+            padding-bottom: 24px;
+            border-top: none; 
+            border-left: none; 
+            border-right: none; 
+            background-color: transparent;
+            font: normal normal normal 16px/25px Poppins;
+            letter-spacing: -0.16px;
+            color: $gray9;
+        }
+        .MuiFormControl-root {
+            width: 100%;
+            margin-bottom: 17px;
+        }
+        .grouped {
+            .item:first-child {
+                padding-right: 20px;
+            }
+            .item:last-child {
+                padding-left: 20px;
+            }
+        }
+        
+    }
+    .property-details {
+        .rate-label {
+            text-align: left;
+            font: normal normal normal 14px/21px Poppins;
+            letter-spacing: -0.14px;
+            color: $gray9;
+        }
+        .react-stars {
+            border: none;
+            outline: none;
+            span {
+                font-size: 40px !important;
+                margin-right: 6px;
+            }
+        }
+    }
+    .form-btn {
+        background: $primary 0% 0% no-repeat padding-box;
+        box-shadow: 0px 3px 15px #02244333;
+        border-radius: 36px;
+        font: normal normal medium 16px/25px Poppins;
+        letter-spacing: -0.16px;
+        color: $white;
+        text-transform: uppercase;
+        padding: 18px 0;
+        width: 100%;
+    }
+
+    
+}
+.loader-animation {
+    position: fixed;
+    justify-content: center;
+    .sidebar-left {
+        width: 100%;
+        transition: 0.3s all ease-in-out;
+        .steps {
+            width: auto;
+            margin: 0 40px;
+        }
+        
+    }
+    .sidebar {
+        width: 100%;
+        height: 100%;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+
+        
+    }
+    .stepper-body {
+        transition: 0.3s all ease-in-out;
+        width: 0;
+        overflow: hidden;
+        padding: 0;
+    }
+    .steps {
+        margin: 0 20px;
+        &:after {
+            display: none;
+        }
+        transition: 0.3s all ease-in-out;
+        width: auto;
+    //     &:first-child {
+    //         transition-delay: 1s;
+    //         transform: translate(40%, 145%); 
+    //     }
+    //     &:nth-child(3) {
+    //         transition-delay: 1s;
+    //         transform: translate(110%, 2%);
+    //     }
+    //     &:last-child {
+    //         transition-delay: 1s;
+    //         transform: translate(182%, -140%);
+    //     }
+    }
+    .vertical-divider{
+        transition-delay: 3s;
+        transition: 0.3s all ease-in-out;
+        transform: scale(0);
+    }
+
+}

@@ -1,0 +1,99 @@
+.checkbox-card-toggle {
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 2px 6px #00000012;
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 24px 26px;
+    .custom-checkbox {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+    .card {
+        border: none;
+        outline: none;
+        box-shadow: none;
+        flex-direction: row;
+        text-align: left;
+        .card-img {
+            display: flex;
+            height: 120px;
+            min-height: 120px;
+            width: 120px;
+            min-width: 120px;
+            transition: 0.2s all ease-in-out;
+            border-radius: 50%;
+            background-color: #EEF2F2;
+            align-items: center;
+            justify-content: center;
+            img {
+                max-width: 100%;
+            }
+        }
+        .card-body {
+            padding: 0 0 0 28px;
+        }
+        .card-title {
+            font: normal normal medium 18px/27px Poppins;
+            letter-spacing: 0.18px;
+            color: #5E6A75;
+            padding: 11px 0;
+            border-bottom: 1px solid #D9E1E0;;
+            margin-bottom: 0;
+        }
+        .card-text {
+            margin-top: 12px;
+            font: normal normal normal 14px/18px Poppins;
+            letter-spacing: -0.14px;
+            color: #899F9F;
+            margin-bottom: 0;
+        }
+    }
+    .drawer {
+        overflow: hidden;
+        .drawer-body {
+            padding: 20px 0;
+        }
+    } 
+    
+}
+.checkbox-card-toggle.active .card-text{
+    display: none;
+    
+}
+.checkbox-card-toggle.active .card-img img{
+    width: 32px;
+    
+}
+.checkbox-card-toggle.active .drawer{
+    height: auto;
+    overflow: hidden;
+    
+}
+.checkbox-card-toggle.active .card .card-img{
+    transition: 0.2s all ease-in-out;
+   height: 55px;
+   min-height: 55px;
+   width: 55px;
+   min-width: 55px;
+    
+}
+.checkbox-card-toggle .drawer{
+    height: 0;
+    overflow: hidden;
+
+}
+.checkbox-card-toggle.disabled{
+    position: relative;
+    overflow: hidden;
+    &:after {
+        content: '';
+        height: 100%;
+        width: 100%;
+        left: 0;
+        top: 0;
+        background-color: #e5ebeb5c;
+        position: absolute;
+        z-index: 2;
+    }
+}

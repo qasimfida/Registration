@@ -1,0 +1,78 @@
+.checkbox-card-selector {
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 2px 6px #00000012;
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 12px 17px;
+    height: 291px;
+    .custom-checkbox {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+    .card {
+        border: none;
+        outline: none;
+        box-shadow: none;
+        .card-img {
+            display: flex;
+            min-width: 125px;
+            min-height: 125px;
+            width: 125px;
+            height: 125px;
+            transition: 0.2s all ease-in-out;
+            border-radius: 50%;
+            background-color: #EEF2F2;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            margin-top: 36px;
+            img {
+                max-width: 100%;
+            }
+        }
+        .card-body {
+            padding: 26px 18px 0 18px;
+        }
+        .card-title {
+            text-align: center;
+            font: normal normal medium 18px/27px Poppins;
+            letter-spacing: -0.18px;
+            color: #4C5D5D;
+            margin-bottom: 3px;
+        }
+        .card-text {
+            text-align: center;
+            font: normal normal normal 14px/21px Poppins;
+            letter-spacing: -0.14px;
+            color: #9AACAC;
+            margin-bottom: 0;
+        }
+    }
+    
+}
+.checkbox-card-selector.active{
+    background-color: #015198;
+}
+.checkbox-card-selector.active .card-text{
+    color: white;
+    
+}
+.checkbox-card-selector.active .card-body{
+    color: white;
+    background-color: transparent;
+    
+}
+.checkbox-card-selector.active .card{
+    color: white;
+    background-color: transparent;
+    
+}
+.checkbox-card-selector.active .card-title{
+    color: white;
+    
+}
+.checkbox-card-selector.active .card-img{
+    background-color: #003B70;
+    
+}
