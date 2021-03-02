@@ -5,14 +5,14 @@ import user from '../../assets/icons/full-name.svg'
 import email from '../../assets/icons/email.svg'
 import pass from '../../assets/icons/password.svg'
 import conpass from '../../assets/icons/confirm-password.svg'
-import mobile from '../../assets/icons/confirm-password.svg'
+import mobile from '../../assets/icons/mobile.svg'
 import Checkbox from '../Checkbox'
 
 
 export default (props) => {
 
   const handleChange = (key) => (event) => {
-    props.handleChange(key, key === 'agree' ? event: event.target.value)
+    props.handleChange && props.handleChange(key, key === 'agree' ? event: event.target.value)
   }
 
   const handleSubmit = (event) => {

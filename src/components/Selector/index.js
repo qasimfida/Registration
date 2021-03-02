@@ -12,7 +12,7 @@ export default (props) => {
     },[props.checked]);
 
     const onChange = (value) => {
-        props.onChange && props.onChange(value) || setChecked(!checked);
+        props.onChange && props.onChange(!value) || setChecked(!value);
 
     }
 
