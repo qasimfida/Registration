@@ -8,7 +8,7 @@ export default (props) => {
     const { step, step1, step2, step3 } = props;
     return <Card className="stepper-progress" >
         <Card.Title>Setup Progress <span> <b>{4 - step}</b> STEPS LEFT  </span></Card.Title>
-        <ProgressBar now={(step - 1) * 33.33} label={`${(step - 1) * 33.33}%`} />
+        <ProgressBar now={((step - 1) * 33.33) || 5} label={`${((step - 1) * 33.33) || 5}%`} />
         <Card.Subtitle>
             <div className="bullet" >1</div>
             <span>  Account Details</span>
