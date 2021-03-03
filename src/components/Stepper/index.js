@@ -40,15 +40,81 @@ export default (props) => {
         setActive(active - 1)
     }
     const handleNext = (value) => {
-        setActive(active + 1)
+        setActive(active + 1);
+        animation()
         if (active === 2) {
-        setIsLoading(1);
-        postData()
+            setTimeout(() => {
+                let body = document.getElementById('body-overlay');
+                body.classList.add('overlay-before')
+            }, 10)
+            setTimeout(() => {
+
+                let body = document.getElementById('body-overlay');
+                body.classList.add('overlay-after')
+            }, 2000)
+            setTimeout(() => {
+                let body = document.getElementById('stepper');
+                body.classList.add('overlay-text')
+            }, 1000);
+            setTimeout(() => {
+                let sidebar = document.getElementById('sibebar-left');
+                sidebar.classList.add('overlay-hide')
+                setIsLoading(1);
+                postData()
+            }, 1500)
         }
     }
 
     const postData = async () => {
-        setTimeout(() => { setIsLoading(2) }, 3000);
+        setTimeout(() => {
+            animation(id1, 'step1', 30.5, 155)
+            animation(id2, 'step2', 0, 195)
+            animation(id3, 'step3', -30.5, 235)
+        }, 1000);
+        setTimeout(() => {
+            let sidebar = document.getElementById('sibebar-left');
+            sidebar.classList.add('overlay-blink');
+        }, 1000);
+        setTimeout(() => {
+            setIsLoading(2)
+        }, 5000);
+
+
+    }
+    var id1 = null;
+    var id2 = null;
+    var id3 = null;
+    const animation = (id, key, endTop, endLeft) => {
+        var elem = document.getElementById(key);;
+        if (elem) {
+
+            var posLeft = 0;
+            var posTop = 0;
+            clearInterval(id);
+            id = setInterval(frame, 10);
+            function frame() {
+                if (posTop === endTop && posLeft === endLeft) {
+                    clearInterval(id);
+                } else {
+                    if (endTop >= 0 && posTop < endTop) {
+                        posTop += 0.5
+                        elem.style.top = (posTop) + "vh";
+                    }
+                    if (endLeft >= 0 && posLeft < endLeft) {
+                        posLeft += 5
+                        elem.style.left = (posLeft) + "%";
+                    }
+                    if (endTop < 0 && posTop > endTop) {
+                        posTop -= 0.5
+                        elem.style.top = (posTop) + "vh";
+                    }
+                    if (endLeft < 0 && posLeft < endLeft) {
+                        posLeft -= 5
+                        elem.style.left = (posLeft) + "%";
+                    }
+                }
+            }
+        }
     }
 
     const renderStep = () => {
@@ -62,10 +128,10 @@ export default (props) => {
             default: return <Step1 handleSubmit={handleNext} />
         }
     }
-    return <div className={`stepper ${active === 3 ? 'loader-animation' : ''}`}>
-        <div className={`sidebar-left `}>
+    return <div id="stepper" className={`stepper ${active > 2 ? 'loader-animation' : ''}`}>
+        <div id="sibebar-left" className={`sidebar-left `}>
             <div className={`sidebar ${isLoading === 2 ? 'd-none' : ''}`} >
-                <div className={`steps ${active > 0 ? 'fill' : ''} ${active === 0 ? "active" : ''} `} > <div className="circle">
+                <div id="step1" className={`steps ${active > 0 ? 'fill' : ''} ${active === 0 ? "active" : ''} `} > <div className="circle">
                     <span className="before" >
                         <svg xmlns="http://www.w3.org/2000/svg" width="61.024" height="61.336" viewBox="0 0 61.024 61.336">
                             <g id="Group_408" data-name="Group 408" transform="translate(0 0)">
@@ -80,7 +146,7 @@ export default (props) => {
                     </span>
                 </div> <span className="step-label">Select Services</span></div>
                 <div className={`vertical-divider ${active > 0 ? 'fill' : ''}`} ></div>
-                <div className={`steps ${active > 1 ? 'fill' : ''} ${active === 1 ? "active" : ''} ${active === 0 ? "disabled" : ''}`}  > <div className="circle">
+                <div id="step2" className={`steps ${active > 1 ? 'fill' : ''} ${active === 1 ? "active" : ''} ${active === 0 ? "disabled" : ''}`}  > <div className="circle">
                     <span className="before" >
                         <svg id="Group_1207" data-name="Group 1207" xmlns="http://www.w3.org/2000/svg" width="49.869" height="77.07" viewBox="0 0 49.869 77.07">
                             <g id="Group_1206" data-name="Group 1206" transform="translate(0 0)">
@@ -94,7 +160,7 @@ export default (props) => {
                     </span>
                 </div> <span className="step-label">Property Details</span></div>
                 <div className={`vertical-divider ${active > 1 ? 'fill' : ''}`} ></div>
-                <div className={`steps disabled ${active > 2 ? 'fill' : ''} ${active === 2 ? "active" : ''} ${active === 1 ? "disabled" : ''}`} > <div className="circle">
+                <div id="step3" className={`steps disabled ${active > 2 ? 'fill' : ''} ${active === 2 ? "active" : ''} ${active === 1 ? "disabled" : ''}`} > <div className="circle">
                     <span className="before">
                         <svg id="Group_1209" data-name="Group 1209" xmlns="http://www.w3.org/2000/svg" width="62.267" height="62.026" viewBox="0 0 62.267 62.026">
                             <path id="Path_3349" data-name="Path 3349" d="M46.753,46.388a1.476,1.476,0,0,1-1.474,1.475H23.867a1.476,1.476,0,0,1-1.474-1.475V24.977A1.476,1.476,0,0,1,23.867,23.5H38.6V21.536H23.867a3.445,3.445,0,0,0-3.44,3.44V46.388a3.445,3.445,0,0,0,3.44,3.44H45.279a3.445,3.445,0,0,0,3.44-3.44V32.242H46.753V46.388ZM27.282,31.809,26,33.3l7.428,6.374,15.812-17.52-1.459-1.317-14.528,16.1Z" transform="translate(13.024 -20.837)" fill="#fff" />
@@ -116,7 +182,7 @@ export default (props) => {
                 }
             </div>
         </div>
-        <div className="stepper-body" >
+        <div className="stepper-body" id="body-overlay" >
             <StepperHeader className='stepper-header' title="What kind of property do you have?" text="Select the type of your property for an easy setup!" >
             </StepperHeader>
             <hr className="horizontal-divider" />

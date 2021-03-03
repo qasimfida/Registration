@@ -34,6 +34,7 @@
             width: 100%;
             text-align: center;
             padding: 20px 0;
+            z-index: 6;
             span {
                 font: normal normal normal 13px/20px Poppins;
             letter-spacing: 0px;
@@ -124,6 +125,14 @@
         width: calc(100% - 350px);
         height: 100vh;
         overflow-y: auto;
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0;
+            background-color: $primary;
+        }
         .stepper-content {
             display: flex;
             margin-top: 65px;
@@ -422,35 +431,19 @@
 .loader-animation {
     position: fixed;
     justify-content: center;
-    .loading-message {
+    .overlay-blink .loading-message {
         display: block;
-        margin-top: 61px;
-        transition-delay: 5s;
-    }
-    .sidebar-left {
-        transition-delay: 3s;
+        position: fixed;
+        top: 59vh;
         width: 100%;
-        transition: 0.3s all ease-in-out;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        .steps {
-            width: auto;
-            margin: 0 40px;
-        }
-        
+        transition-delay: 6s;
+        z-index: 5;
     }
-    .sidebar {
-        transition-delay: 4s;
-        width: 100%;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-
-        
+  
+    .stepper-body.overlay-before{
+        overflow: hidden;
     }
-    .stepper-body:after {
+    .stepper-body.overlay-before:after {
         content: '';
         position: absolute;
         left: 0;
@@ -459,18 +452,23 @@
         width: 100%;
         background-color: rgba(255,255,255,0.6);
         top: 0;
+        z-index: 2;
         transition-delay: 0.1s;
         transition: 0.3s all ease-in-out;
     }
-    .stepper-body {
-        transition-delay: 4s;
-        transition: 0.3s all ease-in-out;
-        width: 0;
-        overflow: hidden;
-        padding: 0;
-        display: none;
+    .stepper-body.overlay-after:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 100%;
+        width: 100%;
+        background-color: $primary;
+        top: 0;
+        z-index: 3;
+        animation: swipe 0.2s ;
     }
-    .steps {
+    .overlay-blink .steps {
         margin: 0 20px;
         &:after {
             display: none;
@@ -494,7 +492,12 @@
             animation-delay: -0.6s;
         }
     }
-    .vertical-divider{
+    .overlay-hide .vertical-divider{
+        transition: 0.3s all ease-in-out;
+        transform: scale(0);
+    }
+    .overlay-hide .circle img, 
+    .overlay-hide .circle svg {
         transition: 0.3s all ease-in-out;
         transform: scale(0);
     }
@@ -512,5 +515,22 @@
     }  20% { 
       transform: scaleY(1.0);
       opacity: 1;
+    }
+  }
+@-webkit-keyframes swipe {
+    from {
+        width: 0%;
+    }
+    to {
+        width: 100%;
+    }
+  }
+  
+  @keyframes swipe {
+    from {
+        width: 0%;
+    }
+    to {
+        width: 100%;
     }
   }

@@ -25,7 +25,7 @@ export default (props) => {
     <form noValidate autoComplete="off" className="stepper-form-1" >
       <div className="icon-input" >
           <span className="icon" ><img src={user} /></span>
-        <TextField label="Name & Surname"  onChange={handleChange('name')} value={data && data.name} />
+        <TextField error label="Name & Surname"  onChange={handleChange('name')} value={data && data.name} />
       </div>
       <div className="icon-input" >
           <span className="icon" ><img src={email} /></span>
