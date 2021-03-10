@@ -1,6 +1,7 @@
 
 .custom-checkbox {
     display: flex;
+    cursor: pointer;
     .checkbox-icon {
         background: #C6D3D3 0% 0% no-repeat padding-box;
         display: flex;
@@ -11,7 +12,6 @@
         min-width: 37px;
         min-height: 37px;
         border-radius: 4px;
-        cursor: pointer;
         img {
             height: 18px;
         }

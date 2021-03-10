@@ -91,7 +91,7 @@
         }
         .steps.disabled{
             .circle {
-                opacity: 0.7;
+                opacity: 0.5;
             }
         }
         .steps.fill {
@@ -121,10 +121,10 @@
     }
     .stepper-body {
         position: relative;
-        padding: 32px 52px;
+        padding: 32px 0;
         width: calc(100% - 350px);
         height: 100vh;
-        overflow-y: auto;
+        overflow: hidden;
         .overlay {
             position: absolute;
             top: 0;
@@ -135,10 +135,15 @@
         }
         .stepper-content {
             display: flex;
-            margin-top: 65px;
+            padding: 65px 52px 32px;
+            height: calc(100% - 64px);
+            overflow-x: hidden;
+            overflow-y: auto;
+
         }
         .horizontal-divider {
             border: 1px solid $gray6;
+            width: calc(100% - 104px);
         }
         .stepper-header {
             background: transparent;
@@ -146,6 +151,7 @@
             display: flex;
             flex-direction: row;
             margin-bottom: 20px;
+            padding: 0 52px;
             img {
                 height: 50px;
                 width: 50px;
@@ -177,8 +183,13 @@
                 color: $primary;
                 font: normal normal normal 16px/20px Poppins;
                 letter-spacing: 0px;
+                padding: 0;
             }
 
+        }
+        .sidebar-right {
+            display: flex;
+            justify-content: flex-end;
         }
         .stepper-progress {
             padding: 22px 25px;
@@ -186,6 +197,8 @@
             box-shadow: 0px 2px 6px $gray3;
             border-radius: 10px;
             border: none;
+            max-width: 500px;
+            margin: 0;
             .card-title {
                 font: normal normal normal 18px/27px Poppins;
                 letter-spacing: -0.18px;
@@ -215,6 +228,7 @@
                     font: normal normal medium 12px/14px Poppins;
                     letter-spacing: -0.12px;
                     color: $white;
+                    text-align: end;
                 }
             }
             .card-subtitle {
@@ -230,13 +244,16 @@
                 .bullet {
                     width: 23px;
                     height: 23px;
-                   min-width: 23px;
+                    min-width: 23px;
                     min-height: 23px;
                     line-height: 23px;
                     background: $gray5 0% 0% no-repeat padding-box;
                     margin-right: 9px;
                     border-radius: 50%;
                     text-align: center;
+                    font: normal normal medium 14px/20px Poppins;
+                    letter-spacing: 0.14px;
+                    color: #A8BCBB;
                 }
                 span {
                     width: 100%;
@@ -244,8 +261,11 @@
                 .status {
                     font: normal normal normal 12px/20px Poppins;
                     letter-spacing: 0.12px;
-                    color: $secondary;
+                    color: #C4D5D5;
                     min-width: max-content;
+                }
+                .status.completed {
+                    color: $secondary;
                 }
             }
             .card-text {
@@ -279,16 +299,36 @@
         .MuiFormControl-root.MuiTextField-root {
             width: 100%;
         }
-        
+        .MuiFormHelperText-root {
+            display: none;
+            position: absolute;
+            right: 21px;
+            top: 21px;
+        }
+        .MuiFormHelperText-root.Mui-error{
+            display: block;
+        }
         .icon-input {
             position: relative;
             margin-bottom: 36px;
             display: flex;
             width: 90%;
-            .icon {
+            .icon  {
                 position: absolute;
-                top: 20px;
+                top: 21px;
                 z-index: 2;
+            }
+            .icon.icon-after  {
+                right: 0;
+                img {
+                    height: 16px;
+                    width: 16px;
+                }
+            }
+            select {
+                width: 20px;
+                background-color: transparent;
+                border: none;
             }
         }
         .MuiInputLabel-root{
@@ -306,7 +346,10 @@
             padding-bottom: 17px;
             border-top: none; 
             border-left: none; 
-            border-right: none; 
+            border-right: none;
+            &::before {
+                border-bottom: 2px solid #A8BCBB;
+            }
             background-color: transparent;
             font: normal normal normal 16px/25px Poppins;
             letter-spacing: -0.16px;
@@ -337,6 +380,7 @@
         }
         
     }
+    
 
     .property-form {
         .label + .MuiInput-formControl {
@@ -363,7 +407,10 @@
             padding-bottom: 24px;
             border-top: none; 
             border-left: none; 
-            border-right: none; 
+            border-right: none;
+            &::before {
+                border-bottom: 2px solid #A8BCBB;
+            }
             background-color: transparent;
             font: normal normal normal 16px/25px Poppins;
             letter-spacing: -0.16px;
@@ -396,6 +443,7 @@
             span {
                 font-size: 40px !important;
                 margin-right: 6px;
+                color: $star;
             }
         }
     }
@@ -428,13 +476,116 @@
 
     
 }
+.form {
+    .PhoneInputCountryIcon.PhoneInputCountryIcon--border, .PhoneInput--focus input {
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        box-shadow: none;
+        outline: none;
+        border-color: #A8BCBB ;
+    }
+    .PhoneInput input {
+        padding-left: 100px;
+        padding-bottom: 12px;
+        width: 100%;
+    }
+  .MuiInput-underline:before, .MuiInputBase-formControl.MuiInput-formControl input, input:before, input:after, .PhoneInputCountryIcon.PhoneInputCountryIcon--border, .PhoneInput--focus input {
+        border-bottom-width: 2px !important;
+        border-color: #A8BCBB !important; 
+    }
+    .MuiInput-underline:hover:not(.Mui-disabled):before, .MuiInput-underline:after {
+        animation: drawline 0.3s;
+        border-color: #A8BCBB !important; 
+    }
+    .MuiInputLabel-root {
+        color: #8CA4A4 !important;
+    }
+    .MuiInput-underline.Mui-error.Mui-error,
+    .MuiInput-underline.Mui-error.Mui-error:before,
+    .MuiInput-underline.Mui-error.Mui-error:after
+    {
+        animation: drawline 0.3s;
+        border-color: red !important; 
+    }
+    .valid-input {
+        .MuiInput-underline:before, .MuiInputBase-formControl.MuiInput-formControl input, input:before, input:after {
+            border-bottom-width: 2px !important;
+            border-color: $secondary !important; 
+        }
+        .MuiInput-underline:hover:not(.Mui-disabled):before, .MuiInput-underline:after {
+            animation: drawline 0.3s;
+            border-color: $secondary !important; 
+        }
+        
+    }
+    .MuiFormHelperText-root {
+        display: none;
+        position: absolute;
+        right: 21px;
+        top: 21px;
+    }
+    .MuiFormHelperText-root.Mui-error{
+        display: block;
+    }
+    .icon-input {
+        position: relative;
+        margin-bottom: 36px;
+        display: flex;
+        width: 90%;
+        .icon  {
+            position: absolute;
+            top: 21px;
+            z-index: 2;
+        }
+        .icon.icon-after  {
+            right: 0;
+            img {
+                height: 16px;
+                width: 16px;
+            }
+        }
+    }
+    .input-form {
+        position: relative;
+        margin-bottom: 36px;
+        display: flex;
+        .icon  {
+            position: absolute;
+            top: 21px;
+            z-index: 2;
+        }
+        .icon.icon-after  {
+            right: 0;
+            img {
+                height: 16px;
+                width: 16px;
+            }
+        }
+    }
+    .flag-input {
+        .icon {
+            top: 0 !important;
+        }
+        .PhoneInputCountryIcon {
+            width: 24px;
+        }
+        .PhoneInputCountry {
+            width: 44px;
+            position: absolute;
+            left: 50px;
+            display: flex;
+            flex-direction: row-reverse;
+        }
+    }
+}
+
 .loader-animation {
     position: fixed;
     justify-content: center;
     .overlay-blink .loading-message {
         display: block;
-        position: fixed;
-        top: 59vh;
+        margin-top: 10px;
         width: 100%;
         transition-delay: 6s;
         z-index: 5;
@@ -501,7 +652,29 @@
         transition: 0.3s all ease-in-out;
         transform: scale(0);
     }
+    
 
+}
+.add-flex {
+    .sidebar-left{
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        align-items: flex-start;
+        flex-direction: column;
+    }
+    .sidebar {
+        width: 100%;
+        transition: 0.3s all ease-in-out;
+        display: flex;
+        flex-direction: row;
+    }
+    .stepper-body{
+        transition: 0.3s all ease-in-out;
+        width: 0;
+        padding: 0;
+
+    }
 }
 
 @-webkit-keyframes sk-stretchdelay {
@@ -533,4 +706,20 @@
     to {
         width: 100%;
     }
+  }
+  .float {
+      top: -67px;
+      position: sticky;
+  }
+  .align-end {
+      align-items: end;
+  }
+
+  @keyframes drawline {
+      from {
+          width: 0;
+      }
+      to {
+          width: 100%;
+      }
   }

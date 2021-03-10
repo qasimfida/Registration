@@ -1,98 +1,214 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, Col, Container, Row } from 'react-bootstrap';
-import Step1 from './Step1.jsx'
-import Step2 from './Step2.jsx'
-import Step3 from './Step3.jsx'
-import StepperHeader from './StepperHeader.jsx';
-import StepperProgress from './StepperProgress.jsx';
+import Step1 from './Step1'
+import Step2 from './Step2'
+import Step3 from './Step3'
+import StepperHeader from './StepperHeader';
+import StepperProgress from './StepperProgress';
 import './styles.scss'
-import check from '../../assets/icons/tick.svg'
+import check from '../../assets/icons/tick.svg';
+import { IState1, IState2, IState3, IErrors1, IErrors2, IService } from '../../utils/types/stepperTypes'
+import http from '../../utils/api';
+import { useSnackbar } from 'notistack';
 
 
-export default (props) => {
-    const [active, setActive] = useState(0);
-    const [isLoading, setIsLoading] = useState(0)
-    const [userDetails, setUserDetails] = useState({
-        name: '',
+export default (props: any) => {
+    const [active, setActive] = useState<Number | any>(0);
+    const [isLoading, setIsLoading] = useState<Number | any>(0)
+    const [userDetails, setUserDetails] = useState<IState1>({
+        fullname: '',
         email: '',
         password: '',
-        confirmPassword: '',
+        confirm_password: '',
         phone: '',
-        agree: false
+        termsofservice: false,
+        prefix: '1'
     })
-    const [propertyDetails, setPropertyDetails] = useState({
-        rating: 0,
+    const [propertyDetails, setPropertyDetails] = useState<IState2>({
+        rate: 0,
         name: '',
         country: '',
         address: '',
         city: '',
-        zip: ''
+        zip_code: ''
     })
-    const [options, setOptions] = useState({
-        reception: false,
-        booking: false,
-        pos: false,
-        marketing: false,
-        channel: false,
-        housekeeping: false,
-    })
+    const [options, setOptions] = useState<IService[]>([]);
+    const [errors1, setErrors1] = useState<IErrors1>({ fullname: '' });
+    const [errors2, setErrors2] = useState<IErrors2>({ name: '' });
+    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+
     const handlePrev = () => {
         setActive(active - 1)
     }
-    const handleNext = (value) => {
-        setActive(active + 1);
-        animation()
-        if (active === 2) {
-            setTimeout(() => {
-                let body = document.getElementById('body-overlay');
-                body.classList.add('overlay-before')
-            }, 10)
-            setTimeout(() => {
 
-                let body = document.getElementById('body-overlay');
-                body.classList.add('overlay-after')
-            }, 2000)
+    const addUserData = async (key: string, body: any) => {
+        try {
+            let response = await http.post(key, body);
+            localStorage.setItem('token', response.data.token)
+            setActive(active + 1);
+            let noti: any = enqueueSnackbar("User registered successfully", { variant: 'success' });
             setTimeout(() => {
-                let body = document.getElementById('stepper');
-                body.classList.add('overlay-text')
-            }, 1000);
+                closeSnackbar(noti);
+            }, 4000)
+
+        } catch (err) {
+            if (err.response) {
+                Object.keys(err.response.data).forEach(error => {
+                    setErrors1({ ...errors1, [error]: err.response.data[error].message })
+                    let noti = enqueueSnackbar(err.response.data[error].message, { variant: 'error' });
+                    setTimeout(() => {
+                        closeSnackbar(noti);
+                    }, 4000)
+                })
+
+            }
+            else {
+
+                let noti = enqueueSnackbar("Something went wrong", { variant: 'error' });
+                setTimeout(() => {
+                    closeSnackbar(noti);
+                }, 4000)
+            }
+        }
+    }
+    const addHotelData = async (key: string, body: any) => {
+        try {
+            let token: any = localStorage.getItem('token')
+            let response = await http.post(key, body, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            setActive(active + 1);
+            let noti: any = enqueueSnackbar("Hotel registered successfully", { variant: 'success' });
             setTimeout(() => {
-                let sidebar = document.getElementById('sibebar-left');
-                sidebar.classList.add('overlay-hide')
-                setIsLoading(1);
-                postData()
-            }, 1500)
+                closeSnackbar(noti);
+            }, 4000)
+
+        } catch (err) {
+            if (err.response) {
+                Object.keys(err.response.data).forEach(error => {
+                    setErrors1({ ...errors1, [error]: err.response.data[error].message })
+                    let noti = enqueueSnackbar(err.response.data[error].message, { variant: 'error' });
+                    setTimeout(() => {
+                        closeSnackbar(noti);
+                    }, 4000)
+                })
+
+            }
+            else {
+
+                let noti = enqueueSnackbar("Something went wrong", { variant: 'error' });
+                setTimeout(() => {
+                    closeSnackbar(noti);
+                }, 4000)
+            }
+        }
+    }
+    const addServices = async (key: string, services: any) => {
+        try {
+            let token: any = localStorage.getItem('token')
+            let response = await http.post(key, {services}, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            setActive(active + 1);
+            let noti: any = enqueueSnackbar("Services registered successfully", { variant: 'success' });
+            setTimeout(() => {
+                closeSnackbar(noti);
+            }, 4000)
+            return response
+
+        } catch (err) {
+            if (err.response) {
+                Object.keys(err.response.data).forEach(error => {
+                    let noti = enqueueSnackbar(err.response.data[error].message, { variant: 'error' });
+                    setTimeout(() => {
+                        closeSnackbar(noti);
+                    }, 4000)
+                })
+
+            }
+            else {
+
+                let noti = enqueueSnackbar("Something went wrong", { variant: 'error' });
+                setTimeout(() => {
+                    closeSnackbar(noti);
+                }, 4000)
+            }
+        }
+    }
+
+    const handleNext = async () => {
+        let details: any = userDetails;
+        if (active === 0) {
+            await addUserData('/register/hotel', { ...details, termsofservice: 1 });
+        }
+        if (active === 1) {
+            await addHotelData('/hotel/registerhotel', propertyDetails);
+            return 0;
+        }
+        if (active === 2) {
+            let arr = options.map((item) => item.id);
+            let a:any = await addServices('hotel/registerservices', arr);
+            console.log(a);
+            if (a && a.status === 200) {
+                setTimeout(() => {
+                    let body: any = document.getElementById('body-overlay');
+                    if (body) {
+                        body.classList.add('overlay-before')
+                    }
+                }, 10)
+                setTimeout(() => {
+
+                    let body: any = document.getElementById('body-overlay');
+                    body.classList.add('overlay-after')
+                }, 2000)
+                setTimeout(() => {
+                    let body: any = document.getElementById('stepper');
+                    body.classList.add('overlay-text')
+                }, 1000);
+                setTimeout(() => {
+                    let sidebar: any = document.getElementById('sibebar-left');
+                    sidebar.classList.add('overlay-hide')
+                    postData()
+                }, 1500)
+            }
         }
     }
 
     const postData = async () => {
         setTimeout(() => {
-            animation(id1, 'step1', 30.5, 155)
-            animation(id2, 'step2', 0, 195)
-            animation(id3, 'step3', -30.5, 235)
+            let steper: any = document.getElementById('stepper');
+            steper.classList.add('add-flex')
+            // animation(id1, 'step1', 30.5, 155)
+            // animation(id2, 'step2', 0, 195)
+            // animation(id3, 'step3', -30.5, 235)
         }, 1000);
         setTimeout(() => {
-            let sidebar = document.getElementById('sibebar-left');
+            let sidebar: any = document.getElementById('sibebar-left');
             sidebar.classList.add('overlay-blink');
         }, 1000);
         setTimeout(() => {
+
             setIsLoading(2)
         }, 5000);
 
 
     }
+
     var id1 = null;
     var id2 = null;
     var id3 = null;
-    const animation = (id, key, endTop, endLeft) => {
-        var elem = document.getElementById(key);;
+    const animation = (id: any, key: string, endTop: string | number, endLeft: string | number) => {
+        var elem: any = document.getElementById(key);;
         if (elem) {
 
             var posLeft = 0;
             var posTop = 0;
             clearInterval(id);
-            id = setInterval(frame, 10);
-            function frame() {
+            let frame = () => {
                 if (posTop === endTop && posLeft === endLeft) {
                     clearInterval(id);
                 } else {
@@ -114,21 +230,35 @@ export default (props) => {
                     }
                 }
             }
+            id = setInterval(frame, 10);
+
         }
     }
 
     const renderStep = () => {
         switch (active) {
             case 0:
-                return <Step1 handleSubmit={handleNext} data={userDetails} handleChange={(key, value) => setUserDetails({ ...userDetails, [key]: value })} />
+                return <Step1 errors={errors1} setErrors={setErrors1} handleSubmit={() => handleNext()} data={userDetails} handleChange={(key: string | any, value: any) => setUserDetails({ ...userDetails, [key]: value })} />
             case 1:
-                return <Step2 handleSubmit={handleNext} data={propertyDetails} handleChange={(key, value) => setPropertyDetails({ ...propertyDetails, [key]: value })} />
+                return <Step2 errors={errors2} setErrors={setErrors2} handleSubmit={() => handleNext()} data={propertyDetails} handleToggle={(key: string | any, value: any) => setPropertyDetails({ ...propertyDetails, [key]: value })} handleChange={(key: string | any, value: any) => setPropertyDetails({ ...propertyDetails, [key]: value })} />
             case 2:
-                return <Step3 handleSubmit={handleNext} data={options} handleChange={(key, value) => setOptions({ ...options, [key]: value })} />
-            default: return <Step1 handleSubmit={handleNext} />
+                return <Step3 handleSubmit={() => handleNext()} data={options} handleChange={(key: IService) => {
+                    let has = options.filter(item => item.id === key.id);
+                    if (has.length) {
+
+                        let option = options.filter(item => item.id !== key.id)
+                        setOptions(option)
+                    }
+                    else {
+                        setOptions([...options, key])
+                    }
+                }}
+                />
+            default:
+                return <Step1 errors={errors1} setErrors={setErrors1} handleSubmit={() => handleNext()} data={userDetails} handleChange={(key: string | any, value: any) => setUserDetails({ ...userDetails, [key]: value })} />
         }
     }
-    return <div id="stepper" className={`stepper ${active > 2 ? 'loader-animation' : ''}`}>
+    return <div id="stepper" className={`form stepper ${active > 2 ? 'loader-animation' : ''}`}>
         <div id="sibebar-left" className={`sidebar-left `}>
             <div className={`sidebar ${isLoading === 2 ? 'd-none' : ''}`} >
                 <div id="step1" className={`steps ${active > 0 ? 'fill' : ''} ${active === 0 ? "active" : ''} `} > <div className="circle">
@@ -182,22 +312,19 @@ export default (props) => {
                 }
             </div>
         </div>
-        <div className="stepper-body" id="body-overlay" >
-            <StepperHeader className='stepper-header' title="What kind of property do you have?" text="Select the type of your property for an easy setup!" >
-            </StepperHeader>
+        <div className="stepper-body form" id="body-overlay" >
+            <StepperHeader className='stepper-header' title="What kind of property do you have?" text="Select the type of your property for an easy setup!" />
             <hr className="horizontal-divider" />
             <div className=" stepper-content">
                 <Container fluid className="px-0" >
-                    <Row>
-                        <Col xs={12} sm={12} md={7} className="pr-4 ps-0" >
+                    <Row className="align-end" >
+                        <Col xs={12} sm={12} md={7} className="pr-4 ps-0 float" >
                             {renderStep()}
                         </Col>
-                        <Col xs={12} sm={12} md={5} className="pl-4 pe-0" >
-                            <Card>
-                                <div className="sidebar-right">
-                                    <StepperProgress step={active + 1} step1={userDetails} step2={propertyDetails} step3={options} />
-                                </div>
-                            </Card>
+                        <Col xs={12} sm={12} md={5} className="pl-4 pe-0 float " >
+                            <div className="sidebar-right">
+                                <StepperProgress step={active + 1} step1={userDetails} step2={propertyDetails} step3={options} />
+                            </div>
                         </Col>
                     </Row>
                 </Container>

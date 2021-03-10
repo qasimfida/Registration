@@ -3,10 +3,20 @@ import ReactDOM from 'react-dom';
 import './index.scss';
 import App from './containers/App';
 import reportWebVitals from './reportWebVitals';
+import { SnackbarProvider } from 'notistack';
+import {Slide} from '@material-ui/core';
+
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <SnackbarProvider maxSnack={4} anchorOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+    }} 
+    
+    >  
+     <App />
+    </SnackbarProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
