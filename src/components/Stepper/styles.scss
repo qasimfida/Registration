@@ -6,7 +6,6 @@
   background-position-y: bottom;
   background-position-y: bottom;
   background-size: 715px 450px;
-  display: flex;
   height: 100%;
   width: 100%;
   .pointer {
@@ -159,7 +158,7 @@
       width: calc(100% - 364px);
       padding: 32px 52px 0;
 			position: fixed;
-			z-index: 99999;
+			z-index: 9;
 
       .header-content {
         display: flex;
@@ -619,30 +618,25 @@
   .stepper-body.overlay-before {
     overflow: hidden;
   }
-  .stepper-body.overlay-before:after {
-    content: "";
+  .stepper-body.overlay-before:after ,
+  .stepper-body.overlay-after:before {
     position: absolute;
     left: 0;
     right: 0;
-    height: 100%;
+    height: 300vh;
     width: 100%;
-    background-color: rgba(255, 255, 255, 0.6);
     top: 0;
-    z-index: 2;
+    z-index: 10;
     transition-delay: 0.1s;
     transition: 0.3s all ease-in-out;
+
+    }
+  .stepper-body.overlay-before:after {
+    content: "";
+    background-color: rgba(255, 255, 255, 0.6);
   }
   .stepper-body.overlay-after:before {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    height: 100%;
-    width: 100%;
     background-color: $primary;
-    top: 0;
-    z-index: 3;
-    animation: swipe 0.2s;
   }
   .overlay-blink .steps {
     margin: 0 20px;

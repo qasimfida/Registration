@@ -13,7 +13,7 @@ import { useSnackbar } from 'notistack';
 
 
 export default (props: any) => {
-    const [active, setActive] = useState<Number | any>(0);
+    const [active, setActive] = useState<Number | any>(2);
     const [isLoading, setIsLoading] = useState<Number | any>(0)
     const [userDetails, setUserDetails] = useState<IState1>({
         fullname: '',
@@ -185,7 +185,6 @@ export default (props: any) => {
                     }
                 }, 10)
                 setTimeout(() => {
-
                     let body: any = document.getElementById('body-overlay');
                     body.classList.add('overlay-after')
                 }, 2000)
@@ -197,6 +196,7 @@ export default (props: any) => {
                     let sidebar: any = document.getElementById('sibebar-left');
                     sidebar.classList.add('overlay-hide')
                     postData()
+                    setIsLoading(1)
                 }, 1500)
             }
         }
