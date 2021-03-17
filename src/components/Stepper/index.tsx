@@ -339,7 +339,6 @@ export default (props: any) => {
         </div>
         <div className="stepper-body form" id="body-overlay" >
             <StepperHeader className='stepper-header' title="What kind of property do you have?" text="Select the type of your property for an easy setup!" />
-            <hr className="horizontal-divider" />
             <div className=" stepper-content">
                 <Container fluid className="px-0" >
                     <Row className="align-end" >

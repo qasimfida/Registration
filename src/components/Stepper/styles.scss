@@ -1,746 +1,757 @@
-@import '../../scss/globals';
+@import "../../scss/globals";
 .stepper {
-    background-image: url(../../assets/icons/hotels-bg.svg);
-    background-repeat: no-repeat;
-    background-position-x: right;
-    background-position-y: bottom;
-    background-position-y: bottom;
-    background-size: 715px 450px;
+  background-image: url(../../assets/icons/hotels-bg.svg);
+  background-repeat: no-repeat;
+  background-position-x: right;
+  background-position-y: bottom;
+  background-position-y: bottom;
+  background-size: 715px 450px;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  .pointer {
+    cursor: pointer;
+  }
+  .sidebar-left {
+    position: fixed;
+    height: 100vh;
     display: flex;
-    height: 100%;
-    width: 100%;
-    .pointer {
-        cursor: pointer;
-    }
-    .sidebar-left {
-        height: 100vh;
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-        justify-content: center;
-        width: 350px;
-        background-color:$primary;
-        .vertical-divider {
-            height: 100px;
-            width: 4px;
-            background: #004887;
-            position: relative;
-            transition: 0.4s all ease-in-out;
-            &:after {
-                height: 0;
-                width: 100%;
-                background-color:$secondary;
-                position: absolute;
-                content: '';
-                left: 0;
-                right: 0;
-                top: 0;
-            }
-            &.fill:after {
-                transition: 0.4s all ease-in-out;
-                height: 100%;
-            }
-        }
-        .steps {
-            position: relative;
-            width: 100%;
-            text-align: center;
-            padding: 20px 0;
-            z-index: 6;
-            span {
-                font: normal normal normal 13px/20px Poppins;
-            letter-spacing: 0px;
-            color: #FFFFFF;
-            }
-            
-            opacity: 1;
-             .circle{
-                 position: relative;
-                height: 124px;
-                width: 124px;
-                border-radius: 50%;
-                // border: 1px solid red;
-                background-color: $darkBlue;
-                margin: 0 auto;
-                margin-bottom : 8px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                .after {
-                    display: none;
-                    width: 47px;
-                    height: 32px;
-                    top: -7px;
-                    position: relative;
-                }
-            }
-             
-            
-            .step-label {
-                transition: 0.2s all ease-in-out;
-            }
-            &:after {
-                position: absolute;
-                left: 100%;
-                height: 0;
-                width: 0;
-                top: 35%;
-                display: none;
-                content: '';
-                border: 10px solid transparent;
-                border-left-color: $primary;
-            }
-            &:first-child :after{
-                top: 40%;
-            }
-           
-            &:last-child :after{
-                top: 35%;
-            }
-        }
-        .steps.active::after {
-            display: block;
-        }
-        .steps.disabled{
-            opacity: 0.5;
-        }
-        .steps.fill {
-            .step-label {
-                display: none;
-                
-            }
-            .circle {
-                background-color: $secondary;
-                .before {
-                    display: none;
-                }
-                .after {
-                    display: block;
-                }
-            }
-            
-        }
-    }
-    .sidebar {
-        width: 350px;
-        position: relative;
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-        justify-content: center;
-    }
-    .stepper-body {
-        position: relative;
-        padding: 32px 0;
-        width: calc(100% - 350px);
-        height: 100vh;
-        overflow: hidden;
-        .overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 0;
-            background-color: $primary;
-        }
-        .stepper-content {
-            display: flex;
-            padding: 65px 52px 32px;
-            height: calc(100% - 64px);
-            overflow-x: hidden;
-            overflow-y: auto;
-
-        }
-        .horizontal-divider {
-            border: 1px solid $gray6;
-            width: calc(100% - 104px);
-        }
-        .stepper-header {
-            background: transparent;
-            border: none;
-            display: flex;
-            flex-direction: row;
-            margin-bottom: 20px;
-            padding: 0 52px;
-            align-items: flex-end;
-            img {
-                height: 50px;
-                width: 50px;
-                min-width: 50px;
-                min-height: 50px;
-                margin-right: 24px;
-                border-radius: 50%;
-            }
-            .card-body {
-                padding: 0;
-                text-align: left;
-                .card-title {
-                    font: normal normal normal 20px/30px Poppins;
-                    letter-spacing: 0.2px;
-                    color: $primary;
-                    margin-bottom: 4px;
-                }
-                .card-text {
-                    font: normal normal normal 14px/21px Poppins;
-                    letter-spacing: -0.14px;
-                    color: $gray8;
-                }
-            }
-            select {
-                background-color: transparent;
-                outline: none !important;
-                border: none !important;
-                box-shadow: none !important;
-                color: $primary;
-                font: normal normal normal 16px/20px Poppins;
-                letter-spacing: 0px;
-                padding: 0;
-            }
-
-        }
-        .sidebar-right {
-            display: flex;
-            justify-content: flex-end;
-        }
-        .stepper-progress {
-            padding: 22px 25px;
-            background: $white 0% 0% no-repeat padding-box;
-            box-shadow: 0px 2px 6px $gray3;
-            border-radius: 10px;
-            border: none;
-            max-width: 500px;
-            width: 500px;
-            margin: 0;
-            .card-title {
-                font: normal normal normal 18px/27px Poppins;
-                letter-spacing: -0.18px;
-                color: $primary;
-                display: flex;
-                justify-content: space-between;
-                align-items: baseline;
-                text-align: left;
-                margin-bottom: 12px;
-                span {
-                    width : 65px;
-                    font: normal normal normal 12px/14px Poppins;
-                    letter-spacing: -0.12px;
-                    b {
-                        display: block;
-                        font: normal normal bold 16px/14px Poppins;
-                        letter-spacing: -0.16px;
-                    }
-                }
-            }
-            .progress {
-                background: $gray5 0% 0% no-repeat padding-box;
-                border-radius: 10px;
-                .progress-bar {
-                    background: $secondary 0% 0% no-repeat padding-box;
-                    border-radius: 10px;
-                    font: normal normal medium 12px/14px Poppins;
-                    letter-spacing: -0.12px;
-                    color: $white;
-                    text-align: end;
-                }
-            }
-            .card-subtitle {
-                font: normal normal normal 16px/20px Poppins;
-                letter-spacing: 0.16px;
-                color: $fontDark;
-                display: flex;
-                justify-content: space-between;
-                text-align: left;
-                margin-top: 32px;
-                padding-bottom: 16px;
-                border-bottom: 1px solid $gray6;
-                .bullet {
-                    width: 23px;
-                    height: 23px;
-                    min-width: 23px;
-                    min-height: 23px;
-                    line-height: 23px;
-                    background: $gray5 0% 0% no-repeat padding-box;
-                    margin-right: 9px;
-                    border-radius: 50%;
-                    text-align: center;
-                    font: normal normal medium 14px/20px Poppins;
-                    letter-spacing: 0.14px;
-                    color: #A8BCBB;
-                }
-                span {
-                    width: 100%;
-                }
-                .status {
-                    font: normal normal normal 12px/20px Poppins;
-                    letter-spacing: 0.12px;
-                    color: #C4D5D5;
-                    min-width: max-content;
-                }
-                .status.completed {
-                    color: $secondary;
-                }
-            }
-            .card-text {
-                li {
-                    display: flex;
-                    justify-content: space-between;
-                    padding: 14px 0;
-                    border-bottom: 1px dashed $gray9;
-                    
-                    span:first-child {
-                        text-align: left;
-                        font: normal normal normal 13px/20px Poppins;
-                        letter-spacing: -0.13px;
-                        color: $fontGrayLighten;
-                    }
-                    span:last-child {
-                        text-align: right;
-                        font: normal normal normal 13px/20px Poppins;
-                        letter-spacing: -0.13px;
-                        color: $gray9;
-                    }
-                    img {
-                        width: 16px;
-                    }
-                }
-            }
-        }
-        
-    }
-    .stepper-form-1 {
-        .MuiFormControl-root.MuiTextField-root {
-            width: 100%;
-        }
-        .MuiFormHelperText-root {
-            display: none;
-            position: absolute;
-            right: 21px;
-            top: 21px;
-        }
-        .MuiFormHelperText-root.Mui-error{
-            display: block;
-        }
-        .icon-input {
-            position: relative;
-            margin-bottom: 36px;
-            display: flex;
-            width: 90%;
-            .icon  {
-                position: absolute;
-                top: 21px;
-                z-index: 2;
-            }
-            .icon.icon-after  {
-                right: 0;
-                img {
-                    height: 16px;
-                    width: 16px;
-                }
-            }
-            select {
-                width: 20px;
-                background-color: transparent;
-                border: none;
-            }
-        }
-        .MuiInputLabel-root{
-            padding-left: 50px;
-        }
-        .MuiInputLabel-root.MuiInputLabel-shrink{
-            padding-left: 70px;
-        }
-        .MuiInputLabel-root.Mui-focused {
-            padding-left: 70px;
-        }
-        input {
-            padding-left: 50px;
-            padding-right: 40px;
-            padding-bottom: 17px;
-            border-top: none; 
-            border-left: none; 
-            border-right: none;
-            border-bottom-color: #A8BCBB;
-            &::before {
-                border-bottom: 2px solid #A8BCBB;
-            }
-            background-color: transparent;
-            font: normal normal normal 16px/25px Poppins;
-            letter-spacing: -0.16px;
-            color: $gray9;
-        }
-        .check-label {
-            position: relative;
-            top: 8px;
-            margin-left: 8px;
-            a {
-                text-decoration: underline;
-                font: normal normal normal 14px/21px Poppins;
-                letter-spacing: -0.14px;
-                color: $primary;
-            }
-        }
-        .already-account {
-            width: 90%;
-            text-align: center;
-            font: normal normal normal 16px/18px Poppins;
-            letter-spacing: 0.32px;
-            color: $gray9;
-            margin-top: 30px;
-            a {
-                text-align: center;
-                text-decoration: underline;
-                color: $primary;
-            }
-        }
-        
-    }
-    
-
-    .property-form {
-        .label + .MuiInput-formControl {
-            margin-top: 0;
-        }
-        .MuiFormControl-root.MuiTextField-root {
-            width: 100%;
-            margin-bottom: 17px;
-        }
-        .MuiInputLabel-root{
-            padding-left: 0px;
-        }
-        .MuiInputLabel-root.MuiInputLabel-shrink{
-            padding-left: 0px;
-        }
-        .MuiInputLabel-root.Mui-focused {
-            padding-left: 0px;
-        }
-        .MuiSelect-select.MuiSelect-select {
-            padding-bottom: 24px;
-        }
-        input {
-            padding-left: 0px;
-            padding-bottom: 24px;
-            border-top: none; 
-            border-left: none; 
-            border-right: none;
-            &::before {
-                border-bottom: 2px solid #A8BCBB;
-            }
-            background-color: transparent;
-            font: normal normal normal 16px/25px Poppins;
-            letter-spacing: -0.16px;
-            color: $gray9;
-        }
-        .MuiFormControl-root {
-            width: 100%;
-            margin-bottom: 17px;
-        }
-        .grouped {
-            width: 100%;
-            .item {
-                width: 50%;
-            }
-            .item:first-child {
-                padding-right: 20px;
-            }
-            .item:last-child {
-                padding-left: 20px;
-            }
-        }
-        
-    }
-    .property-details {
-        .rate-label {
-            text-align: left;
-            font: normal normal normal 14px/21px Poppins;
-            letter-spacing: -0.14px;
-            color: $gray9;
-        }
-        .react-stars {
-            border: none;
-            outline: none;
-            span {
-                font-size: 40px !important;
-                margin-right: 6px;
-                color: $star;
-            }
-        }
-    }
-    .form-btn {
-        background: $primary 0% 0% no-repeat padding-box;
-        box-shadow: 0px 3px 15px #02244333;
-        border-radius: 36px;
-        font: normal normal medium 16px/25px Poppins;
-        letter-spacing: -0.16px;
-        color: $white;
-        text-transform: uppercase;
-        padding: 18px 0;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    width: 350px;
+    background-color: $primary;
+    .vertical-divider {
+      height: 100px;
+      width: 4px;
+      background: #004887;
+      position: relative;
+      transition: 0.4s all ease-in-out;
+      &:after {
+        height: 0;
         width: 100%;
+        background-color: $secondary;
+        position: absolute;
+        content: "";
+        left: 0;
+        right: 0;
+        top: 0;
+      }
+      &.fill:after {
+        transition: 0.4s all ease-in-out;
+        height: 100%;
+      }
     }
-    .loading-message {
+    .steps {
+      position: relative;
+      width: 100%;
+      text-align: center;
+      padding: 20px 0;
+      z-index: 6;
+      span {
+        font: normal normal normal 13px/20px Poppins;
+        letter-spacing: 0px;
+        color: #ffffff;
+      }
+
+      opacity: 1;
+      .circle {
+        position: relative;
+        height: 124px;
+        width: 124px;
+        border-radius: 50%;
+        // border: 1px solid red;
+        background-color: $darkBlue;
+        margin: 0 auto;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .after {
+          display: none;
+          width: 47px;
+          height: 32px;
+          top: -7px;
+          position: relative;
+        }
+      }
+
+      .step-label {
+        transition: 0.2s all ease-in-out;
+      }
+      &:after {
+        position: absolute;
+        left: 100%;
+        height: 0;
+        width: 0;
+        top: 35%;
         display: none;
-        text-align: center;
-        h3 {
-            font: normal normal 300 22px/33px Poppins;
-            letter-spacing: 0.22px;
-            color: $secondary;
-            margin-bottom: 3px;
-        }
-         p {
-            font: normal normal normal 14px/21px Poppins;
-            letter-spacing: -0.14px;
-            color: $white;
-         }
-    }
+        content: "";
+        border: 10px solid transparent;
+        border-left-color: $primary;
+      }
+      &:first-child :after {
+        top: 40%;
+      }
 
-    
-}
-.form {
-    .PhoneInputCountryIcon.PhoneInputCountryIcon--border, .PhoneInput--focus input {
-        border-top: none;
-        border-left: none;
-        border-right: none;
-        box-shadow: none;
-        outline: none;
-        border-color: #A8BCBB ;
+      &:last-child :after {
+        top: 35%;
+      }
     }
-    .PhoneInput {
-        width: 100%;
+    .steps.active::after {
+      display: block;
     }
-    .PhoneInput input {
-        padding-left: 100px;
-        padding-bottom: 12px;
-        width: 100%;
+    .steps.disabled {
+      opacity: 0.5;
     }
-  .MuiInput-underline:before, .MuiInputBase-formControl.MuiInput-formControl input, input:before, input:after, .PhoneInputCountryIcon.PhoneInputCountryIcon--border, .PhoneInput--focus input {
-        border-bottom-width: 2px !important;
-        border-color: #A8BCBB !important; 
-    }
-    .MuiInput-underline:hover:not(.Mui-disabled):before, .MuiInput-underline:after {
-        animation: drawline 0.3s;
-        border-color: #A8BCBB !important; 
-    }
-    .MuiInputLabel-root {
-        color: #8CA4A4 !important;
-    }
-    .MuiInput-underline.Mui-error.Mui-error,
-    .MuiInput-underline.Mui-error.Mui-error:before,
-    .MuiInput-underline.Mui-error.Mui-error:after
-    {
-        animation: drawline 0.3s;
-        border-color: red !important; 
-    }
-    .valid-input {
-        .MuiInput-underline:before, .MuiInputBase-formControl.MuiInput-formControl input, input:before, input:after {
-            border-bottom-width: 2px !important;
-            border-color: $secondary !important; 
+    .steps.fill {
+      .step-label {
+        display: none;
+      }
+      .circle {
+        background-color: $secondary;
+        .before {
+          display: none;
         }
-        .MuiInput-underline:hover:not(.Mui-disabled):before, .MuiInput-underline:after {
-            animation: drawline 0.3s;
-            border-color: $secondary !important; 
+        .after {
+          display: block;
         }
-        
+      }
+    }
+  }
+  .sidebar {
+    width: 350px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .stepper-body {
+    position: relative;
+    padding: 0;
+    width: calc(100% - 350px);
+    margin-left: 350px;
+    height: 100vh;
+    overflow-x: hidden;
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 0;
+      background-color: $primary;
+    }
+    .stepper-content {
+      display: flex;
+      margin-top: 108px;
+      margin-bottom: 20px;
+      padding: 65px 52px 32px;
+    }
+    .horizontal-divider {
+      border: 1px solid $gray6;
+      width: calc(100%);
+    }
+    .stepper-header {
+      background: transparent;
+      border: none;
+      background-color: #e5ebeb;
+      width: calc(100% - 364px);
+      padding: 32px 52px 0;
+			position: fixed;
+			z-index: 99999;
+
+      .header-content {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
+      }
+      img {
+        height: 50px;
+        width: 50px;
+        min-width: 50px;
+        min-height: 50px;
+        margin-right: 24px;
+        border-radius: 50%;
+      }
+      .card-body {
+        padding: 0;
+        text-align: left;
+        .card-title {
+          font: normal normal normal 20px/30px Poppins;
+          letter-spacing: 0.2px;
+          color: $primary;
+          margin-bottom: 4px;
+        }
+        .card-text {
+          font: normal normal normal 14px/21px Poppins;
+          letter-spacing: -0.14px;
+          color: $gray8;
+        }
+      }
+      select {
+        background-color: transparent;
+        outline: none !important;
+        border: none !important;
+        box-shadow: none !important;
+        color: $primary;
+        font: normal normal normal 16px/20px Poppins;
+        letter-spacing: 0px;
+        padding: 0;
+      }
+    }
+    .sidebar-right {
+      display: flex;
+      justify-content: flex-end;
+    }
+    .stepper-progress {
+      padding: 22px 25px;
+      background: $white 0% 0% no-repeat padding-box;
+      box-shadow: 0px 2px 6px $gray3;
+      border-radius: 10px;
+      border: none;
+      max-width: 500px;
+      width: 500px;
+      margin: 0;
+      .card-title {
+        font: normal normal normal 18px/27px Poppins;
+        letter-spacing: -0.18px;
+        color: $primary;
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        text-align: left;
+        margin-bottom: 12px;
+        span {
+          width: 65px;
+          font: normal normal normal 12px/14px Poppins;
+          letter-spacing: -0.12px;
+          b {
+            display: block;
+            font: normal normal bold 16px/14px Poppins;
+            letter-spacing: -0.16px;
+          }
+        }
+      }
+      .progress {
+        background: $gray5 0% 0% no-repeat padding-box;
+        border-radius: 10px;
+        .progress-bar {
+          background: $secondary 0% 0% no-repeat padding-box;
+          border-radius: 10px;
+          font: normal normal medium 12px/14px Poppins;
+          letter-spacing: -0.12px;
+          color: $white;
+          text-align: end;
+        }
+      }
+      .card-subtitle {
+        font: normal normal normal 16px/20px Poppins;
+        letter-spacing: 0.16px;
+        color: $fontDark;
+        display: flex;
+        justify-content: space-between;
+        text-align: left;
+        margin-top: 32px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid $gray6;
+        .bullet {
+          width: 23px;
+          height: 23px;
+          min-width: 23px;
+          min-height: 23px;
+          line-height: 23px;
+          background: $gray5 0% 0% no-repeat padding-box;
+          margin-right: 9px;
+          border-radius: 50%;
+          text-align: center;
+          font: normal normal medium 14px/20px Poppins;
+          letter-spacing: 0.14px;
+          color: #a8bcbb;
+        }
+        span {
+          width: 100%;
+        }
+        .status {
+          font: normal normal normal 12px/20px Poppins;
+          letter-spacing: 0.12px;
+          color: #c4d5d5;
+          min-width: max-content;
+        }
+        .status.completed {
+          color: $secondary;
+        }
+      }
+      .card-text {
+        li {
+          display: flex;
+          justify-content: space-between;
+          padding: 14px 0;
+          border-bottom: 1px dashed $gray9;
+
+          span:first-child {
+            text-align: left;
+            font: normal normal normal 13px/20px Poppins;
+            letter-spacing: -0.13px;
+            color: $fontGrayLighten;
+          }
+          span:last-child {
+            text-align: right;
+            font: normal normal normal 13px/20px Poppins;
+            letter-spacing: -0.13px;
+            color: $gray9;
+          }
+          img {
+            width: 16px;
+          }
+        }
+      }
+    }
+  }
+  .stepper-form-1 {
+    .MuiFormControl-root.MuiTextField-root {
+      width: 100%;
     }
     .MuiFormHelperText-root {
-        display: none;
-        position: absolute;
-        right: 21px;
-        top: 21px;
+      display: none;
+      position: absolute;
+      right: 21px;
+      top: 21px;
     }
-    .MuiFormHelperText-root.Mui-error{
-        display: block;
+    .MuiFormHelperText-root.Mui-error {
+      display: block;
     }
     .icon-input {
-        position: relative;
-        margin-bottom: 36px;
-        display: flex;
-        width: 90%;
-        .icon  {
-            position: absolute;
-            top: 21px;
-            z-index: 2;
+      position: relative;
+      margin-bottom: 36px;
+      display: flex;
+      width: 90%;
+      .icon {
+        position: absolute;
+        top: 21px;
+        z-index: 2;
+      }
+      .icon.icon-after {
+        right: 0;
+        img {
+          height: 16px;
+          width: 16px;
         }
-        .icon.icon-after  {
-            right: 0;
-            img {
-                height: 16px;
-                width: 16px;
-            }
-        }
+      }
+      select {
+        width: 20px;
+        background-color: transparent;
+        border: none;
+      }
     }
-    .input-form {
-        position: relative;
-        margin-bottom: 36px;
-        display: flex;
-        .icon  {
-            position: absolute;
-            top: 21px;
-            z-index: 2;
-        }
-        .icon.icon-after  {
-            right: 0;
-            img {
-                height: 16px;
-                width: 16px;
-            }
-        }
+    .MuiInputLabel-root {
+      padding-left: 50px;
     }
-    .flag-input {
-        .icon {
-            top: 0 !important;
-        }
-        .PhoneInputCountryIcon {
-            width: 24px;
-        }
-        .PhoneInputCountry {
-            width: 44px;
-            position: absolute;
-            left: 50px;
-            display: flex;
-            flex-direction: row-reverse;
-        }
+    .MuiInputLabel-root.MuiInputLabel-shrink {
+      padding-left: 70px;
     }
+    .MuiInputLabel-root.Mui-focused {
+      padding-left: 70px;
+    }
+    input {
+      padding-left: 50px;
+      padding-right: 40px;
+      padding-bottom: 17px;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      border-bottom-color: #a8bcbb;
+      &::before {
+        border-bottom: 2px solid #a8bcbb;
+      }
+      background-color: transparent;
+      font: normal normal normal 16px/25px Poppins;
+      letter-spacing: -0.16px;
+      color: $gray9;
+    }
+    .check-label {
+      position: relative;
+      top: 8px;
+      margin-left: 8px;
+      a {
+        text-decoration: underline;
+        font: normal normal normal 14px/21px Poppins;
+        letter-spacing: -0.14px;
+        color: $primary;
+      }
+    }
+    .already-account {
+      width: 90%;
+      text-align: center;
+      font: normal normal normal 16px/18px Poppins;
+      letter-spacing: 0.32px;
+      color: $gray9;
+      margin-top: 30px;
+      a {
+        text-align: center;
+        text-decoration: underline;
+        color: $primary;
+      }
+    }
+  }
+
+  .property-form {
+    .label + .MuiInput-formControl {
+      margin-top: 0;
+    }
+    .MuiFormControl-root.MuiTextField-root {
+      width: 100%;
+      margin-bottom: 17px;
+    }
+    .MuiInputLabel-root {
+      padding-left: 0px;
+    }
+    .MuiInputLabel-root.MuiInputLabel-shrink {
+      padding-left: 0px;
+    }
+    .MuiInputLabel-root.Mui-focused {
+      padding-left: 0px;
+    }
+    .MuiSelect-select.MuiSelect-select {
+      padding-bottom: 24px;
+    }
+    input {
+      padding-left: 0px;
+      padding-bottom: 24px;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      &::before {
+        border-bottom: 2px solid #a8bcbb;
+      }
+      background-color: transparent;
+      font: normal normal normal 16px/25px Poppins;
+      letter-spacing: -0.16px;
+      color: $gray9;
+    }
+    .MuiFormControl-root {
+      width: 100%;
+      margin-bottom: 17px;
+    }
+    .grouped {
+      width: 100%;
+      .item {
+        width: 50%;
+      }
+      .item:first-child {
+        padding-right: 20px;
+      }
+      .item:last-child {
+        padding-left: 20px;
+      }
+    }
+  }
+  .property-details {
+    .rate-label {
+      text-align: left;
+      font: normal normal normal 14px/21px Poppins;
+      letter-spacing: -0.14px;
+      color: $gray9;
+    }
+    .react-stars {
+      border: none;
+      outline: none;
+      span {
+        font-size: 40px !important;
+        margin-right: 6px;
+        color: $star;
+      }
+    }
+  }
+  .form-btn {
+    background: $primary 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 15px #02244333;
+    border-radius: 36px;
+    font: normal normal medium 16px/25px Poppins;
+    letter-spacing: -0.16px;
+    color: $white;
+    text-transform: uppercase;
+    padding: 18px 0;
+    width: 100%;
+  }
+  .loading-message {
+    display: none;
+    text-align: center;
+    h3 {
+      font: normal normal 300 22px/33px Poppins;
+      letter-spacing: 0.22px;
+      color: $secondary;
+      margin-bottom: 3px;
+    }
+    p {
+      font: normal normal normal 14px/21px Poppins;
+      letter-spacing: -0.14px;
+      color: $white;
+    }
+  }
+}
+.form {
+  .PhoneInputCountryIcon.PhoneInputCountryIcon--border,
+  .PhoneInput--focus input {
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    box-shadow: none;
+    outline: none;
+    border-color: #a8bcbb;
+  }
+  .PhoneInput {
+    width: 100%;
+  }
+  .PhoneInput input {
+    padding-left: 100px;
+    padding-bottom: 12px;
+    width: 100%;
+  }
+  .MuiInput-underline:before,
+  .MuiInputBase-formControl.MuiInput-formControl input,
+  input:before,
+  input:after,
+  .PhoneInputCountryIcon.PhoneInputCountryIcon--border,
+  .PhoneInput--focus input {
+    border-bottom-width: 2px !important;
+    border-color: #a8bcbb !important;
+  }
+  .MuiInput-underline:hover:not(.Mui-disabled):before,
+  .MuiInput-underline:after {
+    animation: drawline 0.3s;
+    border-color: #a8bcbb !important;
+  }
+  .MuiInputLabel-root {
+    color: #8ca4a4 !important;
+  }
+  .MuiInput-underline.Mui-error.Mui-error,
+  .MuiInput-underline.Mui-error.Mui-error:before,
+  .MuiInput-underline.Mui-error.Mui-error:after {
+    animation: drawline 0.3s;
+    border-color: red !important;
+  }
+  .valid-input {
+    .MuiInput-underline:before,
+    .MuiInputBase-formControl.MuiInput-formControl input,
+    input:before,
+    input:after {
+      border-bottom-width: 2px !important;
+      border-color: $secondary !important;
+    }
+    .MuiInput-underline:hover:not(.Mui-disabled):before,
+    .MuiInput-underline:after {
+      animation: drawline 0.3s;
+      border-color: $secondary !important;
+    }
+  }
+  .MuiFormHelperText-root {
+    display: none;
+    position: absolute;
+    right: 21px;
+    top: 21px;
+  }
+  .MuiFormHelperText-root.Mui-error {
+    display: block;
+  }
+  .icon-input {
+    position: relative;
+    margin-bottom: 36px;
+    display: flex;
+    width: 90%;
+    .icon {
+      position: absolute;
+      top: 21px;
+      z-index: 2;
+    }
+    .icon.icon-after {
+      right: 0;
+      img {
+        height: 16px;
+        width: 16px;
+      }
+    }
+  }
+  .input-form {
+    position: relative;
+    margin-bottom: 36px;
+    display: flex;
+    .icon {
+      position: absolute;
+      top: 21px;
+      z-index: 2;
+    }
+    .icon.icon-after {
+      right: 0;
+      img {
+        height: 16px;
+        width: 16px;
+      }
+    }
+  }
+  .flag-input {
+    .icon {
+      top: 0 !important;
+    }
+    .PhoneInputCountryIcon {
+      width: 24px;
+    }
+    .PhoneInputCountry {
+      width: 44px;
+      position: absolute;
+      left: 50px;
+      display: flex;
+      flex-direction: row-reverse;
+    }
+  }
 }
 
 .loader-animation {
-    justify-content: center;
-    .overlay-blink .loading-message {
-        display: block;
-        margin-top: 10px;
-        width: 100%;
-        transition-delay: 6s;
-        z-index: 5;
-    }
-  
-    .stepper-body.overlay-before{
-        overflow: hidden;
-    }
-    .stepper-body.overlay-before:after {
-        content: '';
-        position: absolute;
-        left: 0;
-        right: 0;
-        height: 100%;
-        width: 100%;
-        background-color: rgba(255,255,255,0.6);
-        top: 0;
-        z-index: 2;
-        transition-delay: 0.1s;
-        transition: 0.3s all ease-in-out;
-    }
-    .stepper-body.overlay-after:before {
-        content: '';
-        position: absolute;
-        left: 0;
-        right: 0;
-        height: 100%;
-        width: 100%;
-        background-color: $primary;
-        top: 0;
-        z-index: 3;
-        animation: swipe 0.2s ;
-    }
-    .overlay-blink .steps {
-        margin: 0 20px;
-        &:after {
-            display: none;
-        }
-        .circle .after {
-            display: none !important;
-        }
-        -webkit-animation: sk-stretchdelay 1s infinite ease-in-out;
-        animation: sk-stretchdelay 1s infinite ease-in-out;
-        width: auto;
-        &:first-child {
-            -webkit-animation-delay: -0.2s;
-            animation-delay: -0.2s;
-        }
-        &:nth-child(3) {
-            -webkit-animation-delay: -0.4s;
-            animation-delay: -0.4s;
-        }
-        &:last-child {
-            -webkit-animation-delay: -0.6s;
-            animation-delay: -0.6s;
-        }
-    }
-    .overlay-hide .vertical-divider{
-        transition: 0.3s all ease-in-out;
-        transform: scale(0);
-    }
-    .overlay-hide .circle img, 
-    .overlay-hide .circle svg {
-        transition: 0.3s all ease-in-out;
-        transform: scale(0);
-    }
-    
+  justify-content: center;
+  .overlay-blink .loading-message {
+    display: block;
+    margin-top: 10px;
+    width: 100%;
+    transition-delay: 6s;
+    z-index: 5;
+  }
 
+  .stepper-body.overlay-before {
+    overflow: hidden;
+  }
+  .stepper-body.overlay-before:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.6);
+    top: 0;
+    z-index: 2;
+    transition-delay: 0.1s;
+    transition: 0.3s all ease-in-out;
+  }
+  .stepper-body.overlay-after:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    background-color: $primary;
+    top: 0;
+    z-index: 3;
+    animation: swipe 0.2s;
+  }
+  .overlay-blink .steps {
+    margin: 0 20px;
+    &:after {
+      display: none;
+    }
+    .circle .after {
+      display: none !important;
+    }
+    -webkit-animation: sk-stretchdelay 1s infinite ease-in-out;
+    animation: sk-stretchdelay 1s infinite ease-in-out;
+    width: auto;
+    &:first-child {
+      -webkit-animation-delay: -0.2s;
+      animation-delay: -0.2s;
+    }
+    &:nth-child(3) {
+      -webkit-animation-delay: -0.4s;
+      animation-delay: -0.4s;
+    }
+    &:last-child {
+      -webkit-animation-delay: -0.6s;
+      animation-delay: -0.6s;
+    }
+  }
+  .overlay-hide .vertical-divider {
+    transition: 0.3s all ease-in-out;
+    transform: scale(0);
+  }
+  .overlay-hide .circle img,
+  .overlay-hide .circle svg {
+    transition: 0.3s all ease-in-out;
+    transform: scale(0);
+  }
 }
 .add-flex {
-    .sidebar-left{
-        display: flex;
-        width: 100%;
-        justify-content: center;
-        align-items: flex-start;
-        flex-direction: column;
-    }
-    .sidebar {
-        width: 100%;
-        transition: 0.3s all ease-in-out;
-        display: flex;
-        flex-direction: row;
-    }
-    .stepper-body{
-        transition: 0.3s all ease-in-out;
-        width: 0;
-        display: none;
-        padding: 0;
-
-    }
+  .sidebar-left {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+    transition: 0.3s all ease-in-out;
+    display: flex;
+    flex-direction: row;
+  }
+  .stepper-body {
+    transition: 0.3s all ease-in-out;
+    width: 0;
+    display: none;
+    padding: 0;
+  }
 }
 
 @-webkit-keyframes sk-stretchdelay {
-    0%, 40%, 100% { opacity: 0.5; }  
-    20% { opacity: 1; }
+  0%,
+  40%,
+  100% {
+    opacity: 0.5;
   }
-  
-  @keyframes sk-stretchdelay {
-    0%, 40%, 100% { 
-        opacity: 0.5;
-    }  20% { 
-      transform: scaleY(1.0);
-      opacity: 1;
-    }
+  20% {
+    opacity: 1;
   }
-@-webkit-keyframes swipe {
-    from {
-        width: 0%;
-    }
-    to {
-        width: 100%;
-    }
-  }
-  
-  @keyframes swipe {
-    from {
-        width: 0%;
-    }
-    to {
-        width: 100%;
-    }
-  }
-  .float {
-      top: -67px;
-      position: sticky;
-  }
-  .align-end {
-      align-items: end;
-  }
+}
 
-  @keyframes drawline {
-      from {
-          width: 0;
-      }
-      to {
-          width: 100%;
-      }
+@keyframes sk-stretchdelay {
+  0%,
+  40%,
+  100% {
+    opacity: 0.5;
   }
+  20% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+@-webkit-keyframes swipe {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes swipe {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+.float {
+  top: 122px;
+  position: sticky;
+}
+.align-end {
+  align-items: end;
+}
+
+@keyframes drawline {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
