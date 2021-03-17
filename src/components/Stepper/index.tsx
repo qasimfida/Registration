@@ -41,11 +41,35 @@ export default (props: any) => {
         setActive(active - 1)
     }
 
+    useEffect(()=>{
+        let current = localStorage.getItem('current');
+        if(current){
+            setActive(parseInt(current) || 0);
+            let s1:any =  localStorage.getItem('step1');
+            if(s1){
+                let state = JSON.parse(s1) || userDetails;
+                setUserDetails(state)
+            }
+            let s2:any = localStorage.getItem('step2');
+            if(s2){
+                let state = JSON.parse(s2) || propertyDetails;
+                setPropertyDetails(state)
+            }
+            let s3:any = localStorage.getItem('step3');
+            if(s3){
+                let state = JSON.parse(s3) || options;
+                setOptions(state);
+            }
+        }
+    },[]);
+
+
     const addUserData = async (key: string, body: any) => {
         try {
             let response = await http.post(key, body);
             localStorage.setItem('token', response.data.token)
             setActive(active + 1);
+            localStorage.setItem('current', active)
             let noti: any = enqueueSnackbar("User registered successfully", { variant: 'success' });
             setTimeout(() => {
                 closeSnackbar(noti);
@@ -74,12 +98,9 @@ export default (props: any) => {
     const addHotelData = async (key: string, body: any) => {
         try {
             let token: any = localStorage.getItem('token')
-            let response = await http.post(key, body, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
+            let response = await http.post(key, body);
             setActive(active + 1);
+            localStorage.setItem('current', active)
             let noti: any = enqueueSnackbar("Hotel registered successfully", { variant: 'success' });
             setTimeout(() => {
                 closeSnackbar(noti);
@@ -114,6 +135,7 @@ export default (props: any) => {
                 }
             });
             setActive(active + 1);
+            localStorage.setItem('current', active)
             let noti: any = enqueueSnackbar("Services registered successfully", { variant: 'success' });
             setTimeout(() => {
                 closeSnackbar(noti);
@@ -143,13 +165,15 @@ export default (props: any) => {
     const handleNext = async () => {
         let details: any = userDetails;
         if (active === 0) {
+            localStorage.setItem('step1', JSON.stringify(details))
             await addUserData('/register/hotel', { ...details, termsofservice: 1 });
         }
         if (active === 1) {
+            localStorage.setItem('step2', JSON.stringify(propertyDetails))
             await addHotelData('/hotel/registerhotel', propertyDetails);
-            return 0;
         }
         if (active === 2) {
+            localStorage.setItem('step3', JSON.stringify(options))
             let arr = options.map((item) => item.id);
             let a:any = await addServices('hotel/registerservices', arr);
             console.log(a);
@@ -191,22 +215,21 @@ export default (props: any) => {
             sidebar.classList.add('overlay-blink');
         }, 1000);
         setTimeout(() => {
-
             setIsLoading(2)
         }, 5000);
 
 
     }
 
-    var id1 = null;
-    var id2 = null;
-    var id3 = null;
+    let id1: any = null;
+    let id2: any = null;
+    let id3: any = null;
     const animation = (id: any, key: string, endTop: string | number, endLeft: string | number) => {
-        var elem: any = document.getElementById(key);;
+        let elem: any = document.getElementById(key);;
         if (elem) {
 
-            var posLeft = 0;
-            var posTop = 0;
+            let posLeft = 0;
+            let posTop = 0;
             clearInterval(id);
             let frame = () => {
                 if (posTop === endTop && posLeft === endLeft) {
@@ -241,7 +264,7 @@ export default (props: any) => {
                 return <Step1 errors={errors1} setErrors={setErrors1} handleSubmit={() => handleNext()} data={userDetails} handleChange={(key: string | any, value: any) => setUserDetails({ ...userDetails, [key]: value })} />
             case 1:
                 return <Step2 errors={errors2} setErrors={setErrors2} handleSubmit={() => handleNext()} data={propertyDetails} handleToggle={(key: string | any, value: any) => setPropertyDetails({ ...propertyDetails, [key]: value })} handleChange={(key: string | any, value: any) => setPropertyDetails({ ...propertyDetails, [key]: value })} />
-            case 2:
+            default:
                 return <Step3 handleSubmit={() => handleNext()} data={options} handleChange={(key: IService) => {
                     let has = options.filter(item => item.id === key.id);
                     if (has.length) {
@@ -254,10 +277,12 @@ export default (props: any) => {
                     }
                 }}
                 />
-            default:
-                return <Step1 errors={errors1} setErrors={setErrors1} handleSubmit={() => handleNext()} data={userDetails} handleChange={(key: string | any, value: any) => setUserDetails({ ...userDetails, [key]: value })} />
+            // default:
+            //     return <Step1 errors={errors1} setErrors={setErrors1} handleSubmit={() => handleNext()} data={userDetails} handleChange={(key: string | any, value: any) => setUserDetails({ ...userDetails, [key]: value })} />
         }
     }
+
+    console.log(active)
     return <div id="stepper" className={`form stepper ${active > 2 ? 'loader-animation' : ''}`}>
         <div id="sibebar-left" className={`sidebar-left `}>
             <div className={`sidebar ${isLoading === 2 ? 'd-none' : ''}`} >
@@ -280,7 +305,7 @@ export default (props: any) => {
                     <span className="before" >
                         <svg id="Group_1207" data-name="Group 1207" xmlns="http://www.w3.org/2000/svg" width="49.869" height="77.07" viewBox="0 0 49.869 77.07">
                             <g id="Group_1206" data-name="Group 1206" transform="translate(0 0)">
-                                <path id="Path_4372" data-name="Path 4372" d="M329.465,669.438a1.133,1.133,0,0,1-1.645-1.194l.662-3.864-2.806-2.736a1.133,1.133,0,0,1,.628-1.934l3.88-.563,1.734-3.516a1.134,1.134,0,0,1,2.033,0l1.734,3.516,3.88.563a1.133,1.133,0,0,1,.628,1.934l-2.806,2.736.662,3.864a1.133,1.133,0,0,1-1.645,1.194l-3.469-1.824Zm2.942-4.107a1.133,1.133,0,0,1,1.054,0l1.965,1.033-.375-2.187a1.131,1.131,0,0,1,.325-1l1.589-1.549-2.2-.319a1.134,1.134,0,0,1-.854-.62l-.983-1.99-.983,1.99a1.133,1.133,0,0,1-.853.62l-2.2.319,1.589,1.549a1.131,1.131,0,0,1,.325,1l-.375,2.188Zm-17.676,8.641a1.133,1.133,0,0,1-1.645-1.195l.662-3.864-2.806-2.736a1.133,1.133,0,0,1,.628-1.934l3.88-.563,1.734-3.516a1.134,1.134,0,0,1,2.033,0l1.734,3.516,3.88.563a1.133,1.133,0,0,1,.628,1.934l-2.806,2.736.662,3.864a1.133,1.133,0,0,1-1.645,1.195l-3.469-1.824Zm2.942-4.107a1.132,1.132,0,0,1,1.054,0l1.965,1.032-.375-2.187a1.131,1.131,0,0,1,.325-1l1.589-1.549-2.2-.318a1.134,1.134,0,0,1-.853-.62l-.983-1.99-.983,1.99a1.134,1.134,0,0,1-.853.62l-2.2.318,1.589,1.549a1.131,1.131,0,0,1,.325,1l-.375,2.187Zm26.526,4.107a1.133,1.133,0,0,1-1.645-1.195l.662-3.864-2.806-2.736a1.133,1.133,0,0,1,.628-1.934l3.88-.563,1.734-3.516a1.134,1.134,0,0,1,2.033,0l1.734,3.516,3.88.563a1.133,1.133,0,0,1,.628,1.934l-2.806,2.736.662,3.864a1.133,1.133,0,0,1-1.645,1.195l-3.469-1.824Zm2.942-4.107a1.132,1.132,0,0,1,1.054,0l1.965,1.032-.375-2.187a1.131,1.131,0,0,1,.325-1l1.589-1.549-2.2-.318a1.134,1.134,0,0,1-.853-.62l-.983-1.99-.983,1.99a1.134,1.134,0,0,1-.853.62l-2.2.318,1.589,1.549a1.131,1.131,0,0,1,.325,1l-.375,2.187Zm9.594,62.206h-47.6A1.134,1.134,0,0,1,308,730.937v-40.8A1.134,1.134,0,0,1,309.133,689H328.4v-5.667a1.134,1.134,0,0,1,1.133-1.133h27.2a1.134,1.134,0,0,1,1.133,1.133v47.6A1.134,1.134,0,0,1,356.735,732.07ZM348.8,729.8h6.8V684.468H330.668V729.8h6.8V717.336A1.134,1.134,0,0,1,338.6,716.2h9.067a1.134,1.134,0,0,1,1.133,1.133Zm-20.4,0V691.268H310.267V729.8Zm11.334,0h6.8V718.469h-6.8Zm-3.4-20.4a1.133,1.133,0,0,1,0-2.267h3.4a1.133,1.133,0,0,1,0,2.267Zm10.2,0a1.133,1.133,0,0,1,0-2.267h3.4a1.133,1.133,0,0,1,0,2.267Zm-10.2-15.867a1.133,1.133,0,0,1,0-2.267h3.4a1.133,1.133,0,0,1,0,2.267Zm10.2,0a1.133,1.133,0,0,1,0-2.267h3.4a1.133,1.133,0,0,1,0,2.267Zm-10.2,7.934a1.133,1.133,0,0,1,0-2.267h3.4a1.133,1.133,0,0,1,0,2.267Zm10.2,0a1.133,1.133,0,0,1,0-2.267h3.4a1.133,1.133,0,0,1,0,2.267Zm-30.6,20.4a1.133,1.133,0,1,1,0-2.267h6.8a1.133,1.133,0,1,1,0,2.267Zm0-10.2a1.133,1.133,0,1,1,0-2.267h6.8a1.133,1.133,0,0,1,0,2.267Zm0-10.2a1.133,1.133,0,0,1,0-2.267h6.8a1.133,1.133,0,0,1,0,2.267Z" transform="translate(-308 -655)" fill="#fff" fill-rule="evenodd" />
+                                <path id="Path_4372" data-name="Path 4372" d="M329.465,669.438a1.133,1.133,0,0,1-1.645-1.194l.662-3.864-2.806-2.736a1.133,1.133,0,0,1,.628-1.934l3.88-.563,1.734-3.516a1.134,1.134,0,0,1,2.033,0l1.734,3.516,3.88.563a1.133,1.133,0,0,1,.628,1.934l-2.806,2.736.662,3.864a1.133,1.133,0,0,1-1.645,1.194l-3.469-1.824Zm2.942-4.107a1.133,1.133,0,0,1,1.054,0l1.965,1.033-.375-2.187a1.131,1.131,0,0,1,.325-1l1.589-1.549-2.2-.319a1.134,1.134,0,0,1-.854-.62l-.983-1.99-.983,1.99a1.133,1.133,0,0,1-.853.62l-2.2.319,1.589,1.549a1.131,1.131,0,0,1,.325,1l-.375,2.188Zm-17.676,8.641a1.133,1.133,0,0,1-1.645-1.195l.662-3.864-2.806-2.736a1.133,1.133,0,0,1,.628-1.934l3.88-.563,1.734-3.516a1.134,1.134,0,0,1,2.033,0l1.734,3.516,3.88.563a1.133,1.133,0,0,1,.628,1.934l-2.806,2.736.662,3.864a1.133,1.133,0,0,1-1.645,1.195l-3.469-1.824Zm2.942-4.107a1.132,1.132,0,0,1,1.054,0l1.965,1.032-.375-2.187a1.131,1.131,0,0,1,.325-1l1.589-1.549-2.2-.318a1.134,1.134,0,0,1-.853-.62l-.983-1.99-.983,1.99a1.134,1.134,0,0,1-.853.62l-2.2.318,1.589,1.549a1.131,1.131,0,0,1,.325,1l-.375,2.187Zm26.526,4.107a1.133,1.133,0,0,1-1.645-1.195l.662-3.864-2.806-2.736a1.133,1.133,0,0,1,.628-1.934l3.88-.563,1.734-3.516a1.134,1.134,0,0,1,2.033,0l1.734,3.516,3.88.563a1.133,1.133,0,0,1,.628,1.934l-2.806,2.736.662,3.864a1.133,1.133,0,0,1-1.645,1.195l-3.469-1.824Zm2.942-4.107a1.132,1.132,0,0,1,1.054,0l1.965,1.032-.375-2.187a1.131,1.131,0,0,1,.325-1l1.589-1.549-2.2-.318a1.134,1.134,0,0,1-.853-.62l-.983-1.99-.983,1.99a1.134,1.134,0,0,1-.853.62l-2.2.318,1.589,1.549a1.131,1.131,0,0,1,.325,1l-.375,2.187Zm9.594,62.206h-47.6A1.134,1.134,0,0,1,308,730.937v-40.8A1.134,1.134,0,0,1,309.133,689H328.4v-5.667a1.134,1.134,0,0,1,1.133-1.133h27.2a1.134,1.134,0,0,1,1.133,1.133v47.6A1.134,1.134,0,0,1,356.735,732.07ZM348.8,729.8h6.8V684.468H330.668V729.8h6.8V717.336A1.134,1.134,0,0,1,338.6,716.2h9.067a1.134,1.134,0,0,1,1.133,1.133Zm-20.4,0V691.268H310.267V729.8Zm11.334,0h6.8V718.469h-6.8Zm-3.4-20.4a1.133,1.133,0,0,1,0-2.267h3.4a1.133,1.133,0,0,1,0,2.267Zm10.2,0a1.133,1.133,0,0,1,0-2.267h3.4a1.133,1.133,0,0,1,0,2.267Zm-10.2-15.867a1.133,1.133,0,0,1,0-2.267h3.4a1.133,1.133,0,0,1,0,2.267Zm10.2,0a1.133,1.133,0,0,1,0-2.267h3.4a1.133,1.133,0,0,1,0,2.267Zm-10.2,7.934a1.133,1.133,0,0,1,0-2.267h3.4a1.133,1.133,0,0,1,0,2.267Zm10.2,0a1.133,1.133,0,0,1,0-2.267h3.4a1.133,1.133,0,0,1,0,2.267Zm-30.6,20.4a1.133,1.133,0,1,1,0-2.267h6.8a1.133,1.133,0,1,1,0,2.267Zm0-10.2a1.133,1.133,0,1,1,0-2.267h6.8a1.133,1.133,0,0,1,0,2.267Zm0-10.2a1.133,1.133,0,0,1,0-2.267h6.8a1.133,1.133,0,0,1,0,2.267Z" transform="translate(-308 -655)" fill="#fff" fillRule="evenodd" />
                             </g>
                         </svg>
 
@@ -290,7 +315,7 @@ export default (props: any) => {
                     </span>
                 </div> <span className="step-label">Property Details</span></div>
                 <div className={`vertical-divider ${active > 1 ? 'fill' : ''}`} ></div>
-                <div id="step3" className={`steps disabled ${active > 2 ? 'fill' : ''} ${active === 2 ? "active" : ''} ${active === 1 ? "disabled" : ''}`} > <div className="circle">
+                <div id="step3" className={`steps ${active > 2 ? 'fill' : ''} ${active === 2 ? "active" : ''} ${active === 1 ? "disabled" : ''}`} > <div className="circle">
                     <span className="before">
                         <svg id="Group_1209" data-name="Group 1209" xmlns="http://www.w3.org/2000/svg" width="62.267" height="62.026" viewBox="0 0 62.267 62.026">
                             <path id="Path_3349" data-name="Path 3349" d="M46.753,46.388a1.476,1.476,0,0,1-1.474,1.475H23.867a1.476,1.476,0,0,1-1.474-1.475V24.977A1.476,1.476,0,0,1,23.867,23.5H38.6V21.536H23.867a3.445,3.445,0,0,0-3.44,3.44V46.388a3.445,3.445,0,0,0,3.44,3.44H45.279a3.445,3.445,0,0,0,3.44-3.44V32.242H46.753V46.388ZM27.282,31.809,26,33.3l7.428,6.374,15.812-17.52-1.459-1.317-14.528,16.1Z" transform="translate(13.024 -20.837)" fill="#fff" />

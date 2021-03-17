@@ -17,6 +17,7 @@ import PhoneInput from '../PhoneInput/index'
 const Index = (props: IStep1) => {
   const { data, errors, setErrors } = props;
   const [show, setShow] = useState<Boolean>(false);
+  const [showConfirmPass, setShowConfirmPass] = useState<Boolean>(false);
 
   const handleSubmit = (event: any) => {
     props.handleSubmit && props.handleSubmit();
@@ -54,7 +55,8 @@ const Index = (props: IStep1) => {
       validate(key, value)
     }, 300);
   }
-
+  console.log(show, showConfirmPass)
+console.log(errors, "sadf")
   return (
     <form autoComplete="off" className="stepper-form-1" onSubmit={handleSubmit} >
       <div className={`icon-input ${Boolean(!errors.fullname && data.fullname) ? 'valid-input' : ''} `} >
@@ -88,22 +90,22 @@ const Index = (props: IStep1) => {
         }
       </div>
 
-      <div className="icon-input flag-input" >
+      <div className={`icon-input flag-input ${Boolean(!errors.phone && data.phone) ? 'valid-input' : ''} ${errors.phone ? '.MuiInput-underline.Mui-error.Mui-error': ''} `}>
         <span className="icon" ><img src={mobile} /></span>
-        <div className="d-flex" >
+        <div className="d-flex w-100" >
           <PhoneInput value={data.phone} onChange={handleChange('phone')} />
         </div>
       </div>
-      <div className={`icon-input ${Boolean(!errors.password && (data.password === data.confirm_password)) ? 'valid-input' : ''} `} >
+      <div className={`icon-input ${Boolean(!errors.password && data.password && (data.password === data.confirm_password)) ? 'valid-input' : ''} `} >
         <span className="icon icon-before" ><img src={pass} /></span>
         <TextField type={show ? 'text' : "password"} error={Boolean(errors.password || data.password !== data.confirm_password)} label="Password" onChange={handleChange('password')} value={data && data.password} />
-        <span className="icon icon-after" onClick={() => setShow(!show)} ><img src={show ? visible : hide} /></span>
+        <span className="icon icon-after pointer" onClick={() => setShow(!show)} ><img src={show ? visible : hide} /></span>
       </div>
-      <div className={`icon-input ${Boolean(!errors.password && (data.password === data.confirm_password)) ? 'valid-input' : ''} `} >
+      <div className={`icon-input ${Boolean(!errors.password && data.confirm_password && (data.password === data.confirm_password)) ? 'valid-input' : ''} `} >
         <span className="icon icon-before" ><img src={conpass} /></span>
-        <TextField type={show ? 'text' : "password"} error={Boolean(errors.password || data.password !== data.confirm_password)}
+        <TextField type={showConfirmPass ? 'text' : "password"} error={Boolean(errors.password || data.password !== data.confirm_password)}
           helperText={errors.password} label="Confirm Password" onChange={handleChange('confirm_password')} value={data && data.confirm_password} />
-        <span className="icon icon-after" onClick={() => setShow(!show)} ><img src={show ? visible : hide} /></span>
+        <span className="icon icon-after pointer" onClick={() => setShowConfirmPass(!showConfirmPass)} ><img src={showConfirmPass ? visible : hide} /></span>
       </div>
       <div className="icon-input" >
         <Checkbox
@@ -112,7 +114,7 @@ const Index = (props: IStep1) => {
         ><p className="check-label" >I agree to the <a >Terms of Service</a></p></Checkbox>
       </div>
       <div className="icon-input" >
-        <ButtonBase disabled={Boolean(errors.email && errors.fullname || data.fullname === '' || data.email === '' || !data.termsofservice)} className="form-btn" onClick={handleSubmit} >Register</ButtonBase>
+        <ButtonBase className="form-btn" onClick={handleSubmit} >Register</ButtonBase>
       </div>
       <p className="already-account" >
         I have an account? <a>Sign In</a>

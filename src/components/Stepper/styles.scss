@@ -1,12 +1,24 @@
 @import '../../scss/globals';
 .stepper {
+    background-image: url(../../assets/icons/hotels-bg.svg);
+    background-repeat: no-repeat;
+    background-position-x: right;
+    background-position-y: bottom;
+    background-position-y: bottom;
+    background-size: 715px 450px;
     display: flex;
     height: 100%;
     width: 100%;
+    .pointer {
+        cursor: pointer;
+    }
     .sidebar-left {
-        width: 350px;
+        height: 100vh;
         display: flex;
         align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        width: 350px;
         background-color:$primary;
         .vertical-divider {
             height: 100px;
@@ -90,9 +102,7 @@
             display: block;
         }
         .steps.disabled{
-            .circle {
-                opacity: 0.5;
-            }
+            opacity: 0.5;
         }
         .steps.fill {
             .step-label {
@@ -115,8 +125,8 @@
         width: 350px;
         position: relative;
         display: flex;
-        flex-direction: column;
         align-items: center;
+        flex-direction: column;
         justify-content: center;
     }
     .stepper-body {
@@ -152,6 +162,7 @@
             flex-direction: row;
             margin-bottom: 20px;
             padding: 0 52px;
+            align-items: flex-end;
             img {
                 height: 50px;
                 width: 50px;
@@ -198,6 +209,7 @@
             border-radius: 10px;
             border: none;
             max-width: 500px;
+            width: 500px;
             margin: 0;
             .card-title {
                 font: normal normal normal 18px/27px Poppins;
@@ -347,6 +359,7 @@
             border-top: none; 
             border-left: none; 
             border-right: none;
+            border-bottom-color: #A8BCBB;
             &::before {
                 border-bottom: 2px solid #A8BCBB;
             }
@@ -367,6 +380,7 @@
             }
         }
         .already-account {
+            width: 90%;
             text-align: center;
             font: normal normal normal 16px/18px Poppins;
             letter-spacing: 0.32px;
@@ -421,6 +435,10 @@
             margin-bottom: 17px;
         }
         .grouped {
+            width: 100%;
+            .item {
+                width: 50%;
+            }
             .item:first-child {
                 padding-right: 20px;
             }
@@ -484,6 +502,9 @@
         box-shadow: none;
         outline: none;
         border-color: #A8BCBB ;
+    }
+    .PhoneInput {
+        width: 100%;
     }
     .PhoneInput input {
         padding-left: 100px;
@@ -581,7 +602,6 @@
 }
 
 .loader-animation {
-    position: fixed;
     justify-content: center;
     .overlay-blink .loading-message {
         display: block;
@@ -672,6 +692,7 @@
     .stepper-body{
         transition: 0.3s all ease-in-out;
         width: 0;
+        display: none;
         padding: 0;
 
     }

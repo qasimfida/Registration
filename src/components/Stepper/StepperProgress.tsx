@@ -7,6 +7,7 @@ import { IProgress, IService } from '../../utils/types/stepperTypes'
 
 export default (props: IProgress) => {
     const { step, step1, step2, step3 } = props;
+    console.log(step)
     return <Card className="stepper-progress" >
         <Card.Title>Setup Progress <span> <b>{4 - step}</b> STEPS LEFT  </span></Card.Title>
         <ProgressBar now={((step - 1) * 33.33) || 5} label={`${((step - 1) * 33.33) || 5}%`} />

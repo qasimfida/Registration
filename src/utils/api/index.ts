@@ -4,6 +4,7 @@ const http = axios.create({
   baseURL: 'https://hola.thelead.one/api',
   headers: {
     'Content-Type': 'application/json',
+    "Authorization": `Bearer ${localStorage.getItem('token')}`
   },
   transformRequest: [
     (data) => {

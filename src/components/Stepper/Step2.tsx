@@ -16,12 +16,14 @@ interface IProperty {
 const Index = (props: IStep2) => {
     const [active, setActive] = useState<Number | any>(null);
     const [propertyTypes, setPropertyTypes] = useState<IProperty[]>([]);
+    const [isLoading, setIsLoading] = useState<Boolean>(false);
 
     useEffect(() => {
         getProperties();
     }, [])
 
     const getProperties = async () => {
+        setIsLoading(true);
         let token: any = localStorage.getItem('token')
         let res: any = await http.get('/hotel/getpropertytypes', {
             headers: {
@@ -30,7 +32,9 @@ const Index = (props: IStep2) => {
         });
         if (res && res.data) {
             setPropertyTypes(res.data)
+            
         }
+        setIsLoading(false);
     }
     const addProperty = async (property: any) => {
         let token: any = localStorage.getItem('token')
@@ -48,6 +52,7 @@ const Index = (props: IStep2) => {
         addProperty(value)
     }
     return <div>
+        {isLoading && 'LOADING...'}
         {propertyTypes.map(item => {
             return (
                 <CheckboxCard title={item.name} img={item.image} checked={active === item.id} onChange={handleClick(item.id)} disabled={active !== null && active !== item.id} className={`mb-4 `}>
